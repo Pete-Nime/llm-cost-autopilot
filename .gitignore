@@ -1,0 +1,15 @@
+
+# Never upload our private API credentials
+.env
+.env.*
+
+# Allow the safe example file
+!.env.example
+
+# Ignore Python virtual environments
+.venv/
+
+# Ignore generated Python files
+__pycache__/
+*.pyc
+.pytest_cache/

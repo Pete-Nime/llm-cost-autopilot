@@ -1,0 +1,53 @@
+
+# Model Registry for LLM Cost Autopilot.
+# Prices below are illustrative test values in USD.
+# They are NOT verified current provider prices.
+
+models:
+
+  # First OpenAI model.
+  gpt-4o:
+    provider: openai
+    model_id: gpt-4o
+    input_cost_per_million: 2.50
+    output_cost_per_million: 10.00
+    average_latency_ms: 1500
+    quality_tier: high
+
+  # Lower-cost OpenAI model.
+  gpt-4o-mini:
+    provider: openai
+    model_id: gpt-4o-mini
+    input_cost_per_million: 0.15
+    output_cost_per_million: 0.60
+    average_latency_ms: 800
+    quality_tier: low
+
+  # Anthropic Sonnet model.
+  # Replace the ID with a currently supported model.
+  claude-sonnet:
+    provider: anthropic
+    model_id: REPLACE_WITH_SONNET_MODEL_ID
+    input_cost_per_million: 3.00
+    output_cost_per_million: 15.00
+    average_latency_ms: 1200
+    quality_tier: high
+
+  # Anthropic Haiku model.
+  # Replace the ID with a currently supported model.
+  claude-haiku:
+    provider: anthropic
+    model_id: REPLACE_WITH_HAIKU_MODEL_ID
+    input_cost_per_million: 0.80
+    output_cost_per_million: 4.00
+    average_latency_ms: 700
+    quality_tier: low
+
+  # Ollama model running on our own computer.
+  llama3.2:
+    provider: ollama
+    model_id: llama3.2
+    input_cost_per_million: 0.00
+    output_cost_per_million: 0.00
+    average_latency_ms: 2000
+    quality_tier: medium
