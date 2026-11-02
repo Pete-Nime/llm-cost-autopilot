@@ -24,10 +24,9 @@ models:
     quality_tier: low
 
   # Anthropic Sonnet model.
-  # Replace the ID with a currently supported model.
   claude-sonnet:
     provider: anthropic
-    model_id: REPLACE_WITH_SONNET_MODEL_ID
+    model_id: claude-sonnet-5-5
     input_cost_per_million: 3.00
     output_cost_per_million: 15.00
     average_latency_ms: 1200
@@ -37,7 +36,7 @@ models:
   # Replace the ID with a currently supported model.
   claude-haiku:
     provider: anthropic
-    model_id: REPLACE_WITH_HAIKU_MODEL_ID
+    model_id: claude-haiku-5-5
     input_cost_per_million: 0.80
     output_cost_per_million: 4.00
     average_latency_ms: 700

@@ -13,3 +13,6 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Ignore generated benchmark reports.
+reports/
