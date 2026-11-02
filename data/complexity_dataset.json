@@ -1,0 +1,1052 @@
+[
+  {
+    "id": "P001",
+    "prompt": "What is Python?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P002",
+    "prompt": "Define Python.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P003",
+    "prompt": "What does Python mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P004",
+    "prompt": "Give a basic definition of Python.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P005",
+    "prompt": "What is the purpose of Python?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P006",
+    "prompt": "What is SQL?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P007",
+    "prompt": "Define SQL.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P008",
+    "prompt": "What does SQL mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P009",
+    "prompt": "Give a basic definition of SQL.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P010",
+    "prompt": "What is the purpose of SQL?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P011",
+    "prompt": "What is machine learning?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P012",
+    "prompt": "Define machine learning.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P013",
+    "prompt": "What does machine learning mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P014",
+    "prompt": "Give a basic definition of machine learning.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P015",
+    "prompt": "What is the purpose of machine learning?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P016",
+    "prompt": "What is artificial intelligence?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P017",
+    "prompt": "Define artificial intelligence.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P018",
+    "prompt": "What does artificial intelligence mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P019",
+    "prompt": "Give a basic definition of artificial intelligence.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P020",
+    "prompt": "What is the purpose of artificial intelligence?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P021",
+    "prompt": "What is data engineering?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P022",
+    "prompt": "Define data engineering.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P023",
+    "prompt": "What does data engineering mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P024",
+    "prompt": "Give a basic definition of data engineering.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P025",
+    "prompt": "What is the purpose of data engineering?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P026",
+    "prompt": "What is ETL pipelines?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P027",
+    "prompt": "Define ETL pipelines.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P028",
+    "prompt": "What does ETL pipelines mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P029",
+    "prompt": "Give a basic definition of ETL pipelines.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P030",
+    "prompt": "What is the purpose of ETL pipelines?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P031",
+    "prompt": "What is cloud computing?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P032",
+    "prompt": "Define cloud computing.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P033",
+    "prompt": "What does cloud computing mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P034",
+    "prompt": "Give a basic definition of cloud computing.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P035",
+    "prompt": "What is the purpose of cloud computing?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P036",
+    "prompt": "What is REST APIs?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P037",
+    "prompt": "Define REST APIs.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P038",
+    "prompt": "What does REST APIs mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P039",
+    "prompt": "Give a basic definition of REST APIs.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P040",
+    "prompt": "What is the purpose of REST APIs?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P041",
+    "prompt": "What is databases?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P042",
+    "prompt": "Define databases.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P043",
+    "prompt": "What does databases mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P044",
+    "prompt": "Give a basic definition of databases.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P045",
+    "prompt": "What is the purpose of databases?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P046",
+    "prompt": "What is unit testing?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P047",
+    "prompt": "Define unit testing.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P048",
+    "prompt": "What does unit testing mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P049",
+    "prompt": "Give a basic definition of unit testing.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P050",
+    "prompt": "What is the purpose of unit testing?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P051",
+    "prompt": "What is Docker?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P052",
+    "prompt": "Define Docker.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P053",
+    "prompt": "What does Docker mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P054",
+    "prompt": "Give a basic definition of Docker.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P055",
+    "prompt": "What is the purpose of Docker?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P056",
+    "prompt": "What is Git?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P057",
+    "prompt": "Define Git.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P058",
+    "prompt": "What does Git mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P059",
+    "prompt": "Give a basic definition of Git.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P060",
+    "prompt": "What is the purpose of Git?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P061",
+    "prompt": "What is cybersecurity?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P062",
+    "prompt": "Define cybersecurity.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P063",
+    "prompt": "What does cybersecurity mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P064",
+    "prompt": "Give a basic definition of cybersecurity.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P065",
+    "prompt": "What is the purpose of cybersecurity?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P066",
+    "prompt": "What is data privacy?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P067",
+    "prompt": "Define data privacy.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P068",
+    "prompt": "What does data privacy mean?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P069",
+    "prompt": "Give a basic definition of data privacy.",
+    "complexity": "simple"
+  },
+  {
+    "id": "P070",
+    "prompt": "What is the purpose of data privacy?",
+    "complexity": "simple"
+  },
+  {
+    "id": "P071",
+    "prompt": "Explain how Python works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P072",
+    "prompt": "Compare Python with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P073",
+    "prompt": "Describe how Python is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P074",
+    "prompt": "Give an example of Python in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P075",
+    "prompt": "Summarize the main benefits of Python.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P076",
+    "prompt": "Explain how SQL works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P077",
+    "prompt": "Compare SQL with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P078",
+    "prompt": "Describe how SQL is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P079",
+    "prompt": "Give an example of SQL in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P080",
+    "prompt": "Summarize the main benefits of SQL.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P081",
+    "prompt": "Explain how machine learning works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P082",
+    "prompt": "Compare machine learning with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P083",
+    "prompt": "Describe how machine learning is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P084",
+    "prompt": "Give an example of machine learning in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P085",
+    "prompt": "Summarize the main benefits of machine learning.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P086",
+    "prompt": "Explain how artificial intelligence works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P087",
+    "prompt": "Compare artificial intelligence with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P088",
+    "prompt": "Describe how artificial intelligence is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P089",
+    "prompt": "Give an example of artificial intelligence in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P090",
+    "prompt": "Summarize the main benefits of artificial intelligence.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P091",
+    "prompt": "Explain how data engineering works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P092",
+    "prompt": "Compare data engineering with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P093",
+    "prompt": "Describe how data engineering is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P094",
+    "prompt": "Give an example of data engineering in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P095",
+    "prompt": "Summarize the main benefits of data engineering.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P096",
+    "prompt": "Explain how ETL pipelines works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P097",
+    "prompt": "Compare ETL pipelines with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P098",
+    "prompt": "Describe how ETL pipelines is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P099",
+    "prompt": "Give an example of ETL pipelines in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P100",
+    "prompt": "Summarize the main benefits of ETL pipelines.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P101",
+    "prompt": "Explain how cloud computing works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P102",
+    "prompt": "Compare cloud computing with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P103",
+    "prompt": "Describe how cloud computing is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P104",
+    "prompt": "Give an example of cloud computing in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P105",
+    "prompt": "Summarize the main benefits of cloud computing.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P106",
+    "prompt": "Explain how REST APIs works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P107",
+    "prompt": "Compare REST APIs with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P108",
+    "prompt": "Describe how REST APIs is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P109",
+    "prompt": "Give an example of REST APIs in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P110",
+    "prompt": "Summarize the main benefits of REST APIs.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P111",
+    "prompt": "Explain how databases works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P112",
+    "prompt": "Compare databases with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P113",
+    "prompt": "Describe how databases is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P114",
+    "prompt": "Give an example of databases in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P115",
+    "prompt": "Summarize the main benefits of databases.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P116",
+    "prompt": "Explain how unit testing works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P117",
+    "prompt": "Compare unit testing with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P118",
+    "prompt": "Describe how unit testing is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P119",
+    "prompt": "Give an example of unit testing in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P120",
+    "prompt": "Summarize the main benefits of unit testing.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P121",
+    "prompt": "Explain how Docker works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P122",
+    "prompt": "Compare Docker with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P123",
+    "prompt": "Describe how Docker is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P124",
+    "prompt": "Give an example of Docker in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P125",
+    "prompt": "Summarize the main benefits of Docker.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P126",
+    "prompt": "Explain how Git works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P127",
+    "prompt": "Compare Git with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P128",
+    "prompt": "Describe how Git is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P129",
+    "prompt": "Give an example of Git in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P130",
+    "prompt": "Summarize the main benefits of Git.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P131",
+    "prompt": "Explain how cybersecurity works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P132",
+    "prompt": "Compare cybersecurity with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P133",
+    "prompt": "Describe how cybersecurity is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P134",
+    "prompt": "Give an example of cybersecurity in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P135",
+    "prompt": "Summarize the main benefits of cybersecurity.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P136",
+    "prompt": "Explain how data privacy works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P137",
+    "prompt": "Compare data privacy with related technologies.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P138",
+    "prompt": "Describe how data privacy is used in a real-world project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P139",
+    "prompt": "Give an example of data privacy in practice.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P140",
+    "prompt": "Summarize the main benefits of data privacy.",
+    "complexity": "medium"
+  },
+  {
+    "id": "P141",
+    "prompt": "Design a system that uses Python at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P142",
+    "prompt": "Architect a production-ready solution involving Python.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P143",
+    "prompt": "Optimize a large-scale implementation of Python.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P144",
+    "prompt": "Debug a complex production failure involving Python.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P145",
+    "prompt": "Analyze the trade-offs of different Python architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P146",
+    "prompt": "Design a system that uses SQL at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P147",
+    "prompt": "Architect a production-ready solution involving SQL.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P148",
+    "prompt": "Optimize a large-scale implementation of SQL.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P149",
+    "prompt": "Debug a complex production failure involving SQL.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P150",
+    "prompt": "Analyze the trade-offs of different SQL architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P151",
+    "prompt": "Design a system that uses machine learning at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P152",
+    "prompt": "Architect a production-ready solution involving machine learning.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P153",
+    "prompt": "Optimize a large-scale implementation of machine learning.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P154",
+    "prompt": "Debug a complex production failure involving machine learning.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P155",
+    "prompt": "Analyze the trade-offs of different machine learning architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P156",
+    "prompt": "Design a system that uses artificial intelligence at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P157",
+    "prompt": "Architect a production-ready solution involving artificial intelligence.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P158",
+    "prompt": "Optimize a large-scale implementation of artificial intelligence.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P159",
+    "prompt": "Debug a complex production failure involving artificial intelligence.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P160",
+    "prompt": "Analyze the trade-offs of different artificial intelligence architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P161",
+    "prompt": "Design a system that uses data engineering at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P162",
+    "prompt": "Architect a production-ready solution involving data engineering.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P163",
+    "prompt": "Optimize a large-scale implementation of data engineering.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P164",
+    "prompt": "Debug a complex production failure involving data engineering.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P165",
+    "prompt": "Analyze the trade-offs of different data engineering architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P166",
+    "prompt": "Design a system that uses ETL pipelines at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P167",
+    "prompt": "Architect a production-ready solution involving ETL pipelines.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P168",
+    "prompt": "Optimize a large-scale implementation of ETL pipelines.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P169",
+    "prompt": "Debug a complex production failure involving ETL pipelines.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P170",
+    "prompt": "Analyze the trade-offs of different ETL pipelines architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P171",
+    "prompt": "Design a system that uses cloud computing at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P172",
+    "prompt": "Architect a production-ready solution involving cloud computing.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P173",
+    "prompt": "Optimize a large-scale implementation of cloud computing.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P174",
+    "prompt": "Debug a complex production failure involving cloud computing.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P175",
+    "prompt": "Analyze the trade-offs of different cloud computing architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P176",
+    "prompt": "Design a system that uses REST APIs at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P177",
+    "prompt": "Architect a production-ready solution involving REST APIs.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P178",
+    "prompt": "Optimize a large-scale implementation of REST APIs.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P179",
+    "prompt": "Debug a complex production failure involving REST APIs.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P180",
+    "prompt": "Analyze the trade-offs of different REST APIs architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P181",
+    "prompt": "Design a system that uses databases at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P182",
+    "prompt": "Architect a production-ready solution involving databases.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P183",
+    "prompt": "Optimize a large-scale implementation of databases.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P184",
+    "prompt": "Debug a complex production failure involving databases.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P185",
+    "prompt": "Analyze the trade-offs of different databases architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P186",
+    "prompt": "Design a system that uses unit testing at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P187",
+    "prompt": "Architect a production-ready solution involving unit testing.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P188",
+    "prompt": "Optimize a large-scale implementation of unit testing.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P189",
+    "prompt": "Debug a complex production failure involving unit testing.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P190",
+    "prompt": "Analyze the trade-offs of different unit testing architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P191",
+    "prompt": "Design a system that uses Docker at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P192",
+    "prompt": "Architect a production-ready solution involving Docker.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P193",
+    "prompt": "Optimize a large-scale implementation of Docker.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P194",
+    "prompt": "Debug a complex production failure involving Docker.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P195",
+    "prompt": "Analyze the trade-offs of different Docker architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P196",
+    "prompt": "Design a system that uses Git at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P197",
+    "prompt": "Architect a production-ready solution involving Git.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P198",
+    "prompt": "Optimize a large-scale implementation of Git.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P199",
+    "prompt": "Debug a complex production failure involving Git.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P200",
+    "prompt": "Analyze the trade-offs of different Git architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P201",
+    "prompt": "Design a system that uses cybersecurity at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P202",
+    "prompt": "Architect a production-ready solution involving cybersecurity.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P203",
+    "prompt": "Optimize a large-scale implementation of cybersecurity.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P204",
+    "prompt": "Debug a complex production failure involving cybersecurity.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P205",
+    "prompt": "Analyze the trade-offs of different cybersecurity architectures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P206",
+    "prompt": "Design a system that uses data privacy at enterprise scale.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P207",
+    "prompt": "Architect a production-ready solution involving data privacy.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P208",
+    "prompt": "Optimize a large-scale implementation of data privacy.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P209",
+    "prompt": "Debug a complex production failure involving data privacy.",
+    "complexity": "complex"
+  },
+  {
+    "id": "P210",
+    "prompt": "Analyze the trade-offs of different data privacy architectures.",
+    "complexity": "complex"
+  }
+]
