@@ -40,6 +40,11 @@ class EscalationResult:
     # Store the verification report for the final AI answer.
     quality: QualityResult
 
+    # Store every AI response made during this workflow.
+    # This lets us account for the cost of both attempts.
+    responses: tuple[ModelResponse, ...] = ()
+
+
 
 # Send a question and escalate only if the first answer is empty.
 
@@ -69,6 +74,7 @@ async def route_with_escalation(prompt: str) -> EscalationResult:
             attempts=1,
             reason="Initial model returned a nonempty answer.",
             quality=first_quality,
+            responses=(first_response,),
         )
 
     # Avoid escalation if the first model is already gpt-4o.
@@ -79,6 +85,7 @@ async def route_with_escalation(prompt: str) -> EscalationResult:
             attempts=1,
             reason="Initial answer was empty; already using fallback model.",
             quality=first_quality,
+            responses=(first_response,),
         )
 
     # Load the existing model configurations.
@@ -99,10 +106,26 @@ async def route_with_escalation(prompt: str) -> EscalationResult:
     )
 
     # Return the final answer and its verification report.
+    
+    # Return the final answer and its verification report.
     return EscalationResult(
+
+        # Store the final answer from the fallback model.
         response=second_response,
+
+        # Store both AI responses for accurate cost tracking.
+        responses=(first_response, second_response),
+
+        # Confirm that model escalation occurred.
         escalated=True,
+
+        # Record the total number of AI requests.
         attempts=2,
+
+        # Explain why escalation happened.
         reason="Initial answer was empty; escalated once to gpt-4o.",
+
+        # Store the quality report for the final answer.
         quality=second_quality,
     )
+
