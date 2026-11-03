@@ -1,0 +1,164 @@
+
+# Import asyncio to run asynchronous tests.
+import asyncio
+
+# Import AsyncMock to simulate AI provider calls.
+from unittest.mock import AsyncMock, patch
+
+# Import the escalation function.
+from src.verifier.escalation import route_with_escalation
+
+# Import the standardized response structure.
+from src.providers.response import ModelResponse
+
+
+# Create a fake response for testing without API charges.
+def make_response(text: str, model_id: str) -> ModelResponse:
+
+    # Return a standardized fake AI response.
+    return ModelResponse(
+        output_text=text,
+        input_tokens=10,
+        output_tokens=20,
+        latency_ms=100.0,
+        cost_usd=0.0001,
+        model_id=model_id,
+        provider="openai",
+    )
+
+
+# Confirm that a normal response does not trigger escalation.
+def test_no_escalation_for_nonempty_answer():
+
+    # Create a fake successful first response.
+    first = make_response("Python is a language.", "gpt-4o-mini")
+
+    # Replace the real provider function with a mock.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+    ) as mock_send:
+
+        # Configure the mock to return our first response.
+        mock_send.return_value = first
+
+        # Execute the escalation workflow.
+        result = asyncio.run(
+            route_with_escalation("What is Python?")
+        )
+
+        # Confirm that only one request was made.
+        assert mock_send.await_count == 1
+
+    # Confirm escalation did not occur.
+    assert result.escalated is False
+    assert result.attempts == 1
+
+
+# Confirm that an empty response triggers one fallback request.
+def test_escalation_for_empty_answer():
+
+    # Simulate an empty first response.
+    first = make_response("", "gpt-4o-mini")
+
+    # Simulate a successful fallback response.
+    second = make_response("Python is a language.", "gpt-4o")
+
+    # Replace the real provider function with a mock.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+    ) as mock_send:
+
+        # Return the first and second responses in order.
+        mock_send.side_effect = [first, second]
+
+        # Execute the workflow.
+        result = asyncio.run(
+            route_with_escalation("What is Python?")
+        )
+
+        # Confirm exactly two requests were made.
+        assert mock_send.await_count == 2
+
+        # Confirm the second request used the fallback model.
+        assert mock_send.await_args_list[1].kwargs[
+            "model_config"
+        ].model_id == "gpt-4o"
+
+    # Confirm escalation occurred.
+    assert result.escalated is True
+    assert result.attempts == 2
+    assert result.response.output_text == "Python is a language."
+
+
+# Confirm we never escalate beyond the strongest configured model.
+def test_no_escalation_from_strongest_model():
+
+    # Simulate an empty response from gpt-4o.
+    first = make_response("", "gpt-4o")
+
+    # Replace the provider call with a mock.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+    ) as mock_send:
+
+        # Configure the empty response.
+        mock_send.return_value = first
+
+        # Execute a complex question routed to gpt-4o.
+        result = asyncio.run(
+            route_with_escalation("Design a fault-tolerant system.")
+        )
+
+        # Confirm no second request was made.
+        assert mock_send.await_count == 1
+
+    # Confirm escalation did not occur.
+    assert result.escalated is False
+    assert result.attempts == 1
+
+
+# Check that escalation also returns the final quality report.
+def test_escalation_returns_quality_result():
+
+    # Simulate an empty answer from the first model.
+    first = make_response("", "gpt-4o-mini")
+
+    # Simulate a longer answer from the fallback model.
+    second = make_response(
+        "Python is a programming language used for "
+        "automation, data analysis, machine learning, "
+        "web development, and building software applications.",
+        "gpt-4o",
+    )
+
+    # Replace real API requests with simulated responses.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+    ) as mock_send:
+
+        # Return the empty answer, followed by the fallback.
+        mock_send.side_effect = [first, second]
+
+        # Run the escalation workflow.
+        result = asyncio.run(
+            route_with_escalation("What is Python?")
+        )
+
+        # Confirm that exactly two AI requests were made.
+        assert mock_send.await_count == 2
+
+    # Confirm that escalation occurred.
+    assert result.escalated is True
+
+    # Confirm the total number of attempts.
+    assert result.attempts == 2
+
+    # Confirm the fallback answer passed our length threshold.
+    assert result.quality.passed is True
+
+    # Confirm the score is within the expected range.
+    assert 0.0 <= result.quality.score <= 1.0
