@@ -7,3 +7,4 @@ python-dotenv
 PyYAML
 pytest
 pytest-asyncio
+streamlit
