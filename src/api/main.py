@@ -20,6 +20,8 @@ from fastapi import HTTPException
 # Import our existing workflow that executes and logs AI requests.
 from src.database.workflow_logger import run_and_log
 
+# Import the budget threshold.
+from config.budget import MAX_REQUEST_COST_USD
 
 # Create our FastAPI application.
 app = FastAPI(
@@ -54,6 +56,9 @@ class ExecutionResponse(BaseModel):
 
     # Estimated API cost for the entire workflow.
     estimated_cost_usd: float
+
+    # True when the completed workflow exceeds our budget.
+    budget_exceeded: bool
 
 # Create a simple endpoint to check whether the API works.
 @app.get("/health")
@@ -128,8 +133,21 @@ async def route_execute(request: RoutingRequest):
             detail="Prompt cannot contain only whitespace.",
         )
 
-    # Run our existing routing, escalation and logging workflow.
-    result = await run_and_log(cleaned_prompt)
+   
+    # Attempt to run our AI workflow safely.
+    try:
+
+        # Execute the routing, fallback and database workflow.
+        result = await run_and_log(cleaned_prompt)
+
+    # Handle unexpected failures without exposing internal details.
+    except Exception:
+
+        # Return a generic error to the API client.
+        raise HTTPException(
+            status_code=503,
+            detail="AI execution is temporarily unavailable.",
+        ) from None
 
 
     # Add the estimated costs of every AI provider attempt.
@@ -148,5 +166,7 @@ async def route_execute(request: RoutingRequest):
         attempts=result.attempts,
         # Report the cost of the entire workflow, not just the final answer.
         estimated_cost_usd=total_cost_usd,
-    )
+        # Report whether the workflow exceeded one US cent.
+        budget_exceeded=total_cost_usd > MAX_REQUEST_COST_USD,
+    )   
 

@@ -221,6 +221,88 @@ def test_execution_reports_total_cost(monkeypatch):
     # Confirm both estimated costs were added together.
     assert abs(data["estimated_cost_usd"] - 0.0042) < 1e-10
 
+    # Confirm the total cost is below our $0.01 budget.
+    assert data["budget_exceeded"] is False
+
     # Confirm the fake workflow was called once.
     fake_workflow.assert_awaited_once_with("What is Python?")
 
+
+# Test that provider failures do not expose internal details.
+def test_execution_handles_provider_failure(monkeypatch):
+
+    # Enable execution for this test only.
+    monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
+
+    # Create a fake asynchronous workflow that fails.
+    fake_workflow = AsyncMock(
+        side_effect=RuntimeError(
+            "Internal provider failure: secret test credential"
+        )
+    )
+
+    # Replace the real workflow with the failing mock.
+    monkeypatch.setattr(
+        "src.api.main.run_and_log",
+        fake_workflow,
+    )
+
+    # Submit a simulated API request.
+    response = client.post(
+        "/route/execute",
+        json={"prompt": "Explain Python."},
+    )
+
+    # Confirm the API returns a controlled error.
+    assert response.status_code == 503
+
+    # Confirm the user receives a safe message.
+    assert response.json()["detail"] == (
+        "AI execution is temporarily unavailable."
+    )
+
+    # Confirm sensitive internal details are not returned.
+    assert "secret test credential" not in response.text
+
+    # Confirm the workflow was attempted once.
+    fake_workflow.assert_awaited_once()
+
+
+# Test that the API reports when a workflow exceeds its budget.
+def test_execution_reports_budget_exceeded(monkeypatch):
+
+    # Enable execution for this test only.
+    monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
+
+    # Create a simulated expensive AI response.
+    expensive_response = SimpleNamespace(
+        output_text="This is a simulated expensive answer.",
+        model_id="gpt-4o",
+        cost_usd=0.02,
+    )
+
+    # Create a fake workflow with one provider attempt.
+    fake_result = SimpleNamespace(
+        response=expensive_response,
+        responses=(expensive_response,),
+        escalated=False,
+        attempts=1,
+    )
+
+    # Replace the real AI workflow with our fake workflow.
+    monkeypatch.setattr(
+        "src.api.main.run_and_log",
+        AsyncMock(return_value=fake_result),
+    )
+
+    # Send a simulated request to FastAPI.
+    response = client.post(
+        "/route/execute",
+        json={"prompt": "Explain distributed systems."},
+    )
+
+    # Confirm the API responded successfully.
+    assert response.status_code == 200
+
+    # Confirm the budget overrun was reported.
+    assert response.json()["budget_exceeded"] is True
