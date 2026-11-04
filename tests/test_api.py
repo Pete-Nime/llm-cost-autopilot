@@ -6,6 +6,14 @@ from fastapi.testclient import TestClient
 # Import our existing FastAPI application.
 from src.api.main import app
 
+# Import os to manage the execution environment during testing.
+import os
+
+# Import SimpleNamespace to create fake AI results.
+from types import SimpleNamespace
+
+# Import AsyncMock to simulate an asynchronous AI workflow.
+from unittest.mock import AsyncMock
 
 # Create a test client for our application.
 client = TestClient(app)
@@ -133,3 +141,86 @@ def test_route_preview_too_long():
 
     # Confirm the input length limit is enforced.
     assert response.status_code == 422
+
+# Confirm paid AI execution is blocked by default.
+def test_execution_disabled_by_default(monkeypatch):
+
+    # Remove the environment flag for this test.
+    monkeypatch.delenv("ENABLE_AI_EXECUTION", raising=False)
+
+    # Submit a simulated execution request.
+    response = client.post(
+        "/route/execute",
+        json={"prompt": "What is Python?"},
+    )
+
+    # Confirm execution was blocked.
+    assert response.status_code == 403
+
+    # Confirm the API returned the expected message.
+    assert response.json()["detail"] == "AI execution is disabled."
+
+# Test that our API adds the costs of both AI attempts.
+def test_execution_reports_total_cost(monkeypatch):
+
+    # Enable execution only inside this test.
+    monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
+
+    # Simulate the first model's response.
+    first_response = SimpleNamespace(
+        output_text="",
+        model_id="gpt-4o-mini",
+        cost_usd=0.0002,
+    )
+
+    # Simulate the fallback model's response.
+    second_response = SimpleNamespace(
+        output_text="Python is a programming language.",
+        model_id="gpt-4o",
+        cost_usd=0.0040,
+    )
+
+    # Create a fake workflow containing both responses.
+    fake_result = SimpleNamespace(
+        response=second_response,
+        responses=(first_response, second_response),
+        escalated=True,
+        attempts=2,
+    )
+
+    # Replace the real AI workflow with a fake one.
+    fake_workflow = AsyncMock(return_value=fake_result)
+
+    # Prevent real provider calls and database writes.
+    monkeypatch.setattr(
+        "src.api.main.run_and_log",
+        fake_workflow,
+    )
+
+    # Send a simulated API request.
+    response = client.post(
+        "/route/execute",
+        json={"prompt": "What is Python?"},
+    )
+
+    # Confirm the API returned HTTP 200.
+    assert response.status_code == 200
+
+    # Read the JSON response.
+    data = response.json()
+
+    # Confirm the final model was GPT-4o.
+    assert data["model"] == "gpt-4o"
+
+    # Confirm escalation occurred.
+    assert data["escalated"] is True
+
+    # Confirm two attempts were made.
+    assert data["attempts"] == 2
+
+    # Confirm both estimated costs were added together.
+    assert abs(data["estimated_cost_usd"] - 0.0042) < 1e-10
+
+    # Confirm the fake workflow was called once.
+    fake_workflow.assert_awaited_once_with("What is Python?")
+
