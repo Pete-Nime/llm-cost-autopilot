@@ -8,3 +8,5 @@ PyYAML
 pytest
 pytest-asyncio
 streamlit
+fastapi
+uvicorn
