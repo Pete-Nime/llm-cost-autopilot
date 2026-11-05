@@ -23,6 +23,11 @@ from src.database.workflow_logger import run_and_log
 # Import the budget threshold.
 from config.budget import MAX_REQUEST_COST_USD
 
+# Import our pre-execution budget policy.
+from src.router.budget_policy import (
+    is_workflow_within_budget,
+)
+
 # Create our FastAPI application.
 app = FastAPI(
     title="LLM Cost Autopilot API",
@@ -134,6 +139,27 @@ async def route_execute(request: RoutingRequest):
         )
 
    
+    # Remove unnecessary whitespace from the prompt.
+    cleaned_prompt = request.prompt.strip()
+
+    # Reject prompts containing only whitespace.
+    if not cleaned_prompt:
+
+        # Return a validation error.
+        raise HTTPException(
+            status_code=422,
+            detail="Prompt cannot contain only whitespace.",
+        )
+
+    # Check the estimated budget before calling an AI provider.
+    if not is_workflow_within_budget():
+
+        # Reject the request if the estimate exceeds our budget.
+        raise HTTPException(
+            status_code=403,
+            detail="Estimated workflow cost exceeds the configured budget.",
+        )
+    
     # Attempt to run our AI workflow safely.
     try:
 

@@ -166,6 +166,14 @@ def test_execution_reports_total_cost(monkeypatch):
     # Enable execution only inside this test.
     monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
 
+    # Pretend the budget check passed for this test.
+    # This lets us test the total-cost calculation separately.
+    monkeypatch.setattr(
+        "src.api.main.is_workflow_within_budget",
+        lambda: True,
+)
+
+
     # Simulate the first model's response.
     first_response = SimpleNamespace(
         output_text="",
@@ -234,6 +242,13 @@ def test_execution_handles_provider_failure(monkeypatch):
     # Enable execution for this test only.
     monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
 
+    # Pretend the budget check passed so we can test error handling.
+    monkeypatch.setattr(
+        "src.api.main.is_workflow_within_budget",
+        lambda: True,
+)
+
+
     # Create a fake asynchronous workflow that fails.
     fake_workflow = AsyncMock(
         side_effect=RuntimeError(
@@ -274,6 +289,11 @@ def test_execution_reports_budget_exceeded(monkeypatch):
     # Enable execution for this test only.
     monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
 
+    # Allow this test to focus on execution rather than budget policy.
+    monkeypatch.setattr(
+    "src.api.main.is_workflow_within_budget",
+    lambda: True,
+)
     # Create a simulated expensive AI response.
     expensive_response = SimpleNamespace(
         output_text="This is a simulated expensive answer.",
@@ -306,3 +326,37 @@ def test_execution_reports_budget_exceeded(monkeypatch):
 
     # Confirm the budget overrun was reported.
     assert response.json()["budget_exceeded"] is True
+
+
+# Verify that over-budget requests never execute the AI workflow.
+def test_budget_rejection_prevents_provider_call(monkeypatch):
+
+    # Enable execution for this test only.
+    monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
+
+    # Pretend the budget policy rejected the request.
+    monkeypatch.setattr(
+        "src.api.main.is_workflow_within_budget",
+        lambda: False,
+    )
+
+    # Create a fake AI workflow that records whether it was called.
+    fake_workflow = AsyncMock()
+
+    # Replace the real workflow with our fake one.
+    monkeypatch.setattr(
+        "src.api.main.run_and_log",
+        fake_workflow,
+    )
+
+    # Send a simulated request to the API.
+    response = client.post(
+        "/route/execute",
+        json={"prompt": "Explain distributed systems."},
+    )
+
+    # Confirm the API rejected the request.
+    assert response.status_code == 403
+
+    # Confirm the AI workflow was never called.
+    fake_workflow.assert_not_awaited()
