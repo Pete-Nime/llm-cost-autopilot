@@ -166,12 +166,11 @@ def test_execution_reports_total_cost(monkeypatch):
     # Enable execution only inside this test.
     monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
 
-    # Pretend the budget check passed for this test.
-    # This lets us test the total-cost calculation separately.
+        # Simulate a successful budget check for any prompt.
     monkeypatch.setattr(
-        "src.api.main.is_workflow_within_budget",
-        lambda: True,
-)
+        "src.api.main.is_routed_workflow_within_budget",
+        lambda prompt: True,
+    )
 
 
     # Simulate the first model's response.
@@ -242,11 +241,11 @@ def test_execution_handles_provider_failure(monkeypatch):
     # Enable execution for this test only.
     monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
 
-    # Pretend the budget check passed so we can test error handling.
+    # Simulate a successful budget check for any prompt.
     monkeypatch.setattr(
-        "src.api.main.is_workflow_within_budget",
-        lambda: True,
-)
+        "src.api.main.is_routed_workflow_within_budget",
+        lambda prompt: True,
+    )
 
 
     # Create a fake asynchronous workflow that fails.
@@ -289,11 +288,11 @@ def test_execution_reports_budget_exceeded(monkeypatch):
     # Enable execution for this test only.
     monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
 
-    # Allow this test to focus on execution rather than budget policy.
+        # Simulate a successful budget check for any prompt.
     monkeypatch.setattr(
-    "src.api.main.is_workflow_within_budget",
-    lambda: True,
-)
+        "src.api.main.is_routed_workflow_within_budget",
+        lambda prompt: True,
+    )
     # Create a simulated expensive AI response.
     expensive_response = SimpleNamespace(
         output_text="This is a simulated expensive answer.",
@@ -334,10 +333,10 @@ def test_budget_rejection_prevents_provider_call(monkeypatch):
     # Enable execution for this test only.
     monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
 
-    # Pretend the budget policy rejected the request.
+        # Simulate a budget rejection for any prompt.
     monkeypatch.setattr(
-        "src.api.main.is_workflow_within_budget",
-        lambda: False,
+        "src.api.main.is_routed_workflow_within_budget",
+        lambda prompt: False,
     )
 
     # Create a fake AI workflow that records whether it was called.
@@ -360,3 +359,70 @@ def test_budget_rejection_prevents_provider_call(monkeypatch):
 
     # Confirm the AI workflow was never called.
     fake_workflow.assert_not_awaited()
+
+
+
+# Verify that FastAPI uses the real fallback-aware budget policy.
+def test_api_uses_real_routed_budget_policy(monkeypatch):
+
+    # Enable AI execution only during this test.
+    monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
+
+    # Import our actual fallback-aware budget policy.
+    from src.router.budget_policy import (
+        is_routed_workflow_within_budget,
+    )
+
+    # Ensure FastAPI uses the real budget calculation.
+    monkeypatch.setattr(
+        "src.api.main.is_routed_workflow_within_budget",
+        is_routed_workflow_within_budget,
+    )
+
+    # Create a fake response from GPT-4o-mini.
+    # This does not contact OpenAI.
+    fake_response = SimpleNamespace(
+        output_text="Python is a programming language.",
+        model_id="gpt-4o-mini",
+        cost_usd=0.0002,
+    )
+
+    # Create a complete fake workflow result.
+    fake_result = SimpleNamespace(
+        response=fake_response,
+        responses=(fake_response,),
+        escalated=False,
+        attempts=1,
+    )
+
+    # Make our fake workflow return the structured result.
+    fake_workflow = AsyncMock(return_value=fake_result)
+
+    # Replace the real AI workflow with our fake one.
+    monkeypatch.setattr(
+        "src.api.main.run_and_log",
+        fake_workflow,
+    )
+
+    # Send a simple question through our API.
+    response = client.post(
+        "/route/execute",
+        json={"prompt": "What is Python?"},
+    )
+
+    # Confirm the real budget policy allowed the request.
+    assert response.status_code == 200
+
+    # Confirm the selected model's response was returned.
+    assert response.json()["model"] == "gpt-4o-mini"
+
+    # Confirm the estimated cost was reported correctly.
+    assert abs(
+        response.json()["estimated_cost_usd"] - 0.0002
+    ) < 1e-10
+
+    # Confirm the request stayed within the budget.
+    assert response.json()["budget_exceeded"] is False
+
+    # Confirm our fake workflow ran exactly once.
+    fake_workflow.assert_awaited_once_with("What is Python?")

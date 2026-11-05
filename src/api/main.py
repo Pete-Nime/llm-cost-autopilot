@@ -14,8 +14,7 @@ from src.router.intelligent_router import route_prompt
 # Read environment variables used to control execution.
 import os
 
-# Import HTTPException to return controlled API errors.
-from fastapi import HTTPException
+
 
 # Import our existing workflow that executes and logs AI requests.
 from src.database.workflow_logger import run_and_log
@@ -23,9 +22,9 @@ from src.database.workflow_logger import run_and_log
 # Import the budget threshold.
 from config.budget import MAX_REQUEST_COST_USD
 
-# Import our pre-execution budget policy.
+# Import the fallback-aware budget policy.
 from src.router.budget_policy import (
-    is_workflow_within_budget,
+    is_routed_workflow_within_budget,
 )
 
 # Create our FastAPI application.
@@ -95,7 +94,7 @@ def route_preview(request: RoutingRequest):
 
     # Reject prompts containing only spaces.
     if not cleaned_prompt:
-        from fastapi import HTTPException
+
 
         raise HTTPException(
             status_code=422,
@@ -137,10 +136,7 @@ async def route_execute(request: RoutingRequest):
             status_code=422,
             detail="Prompt cannot contain only whitespace.",
         )
-
-   
-    # Remove unnecessary whitespace from the prompt.
-    cleaned_prompt = request.prompt.strip()
+    
 
     # Reject prompts containing only whitespace.
     if not cleaned_prompt:
@@ -151,15 +147,19 @@ async def route_execute(request: RoutingRequest):
             detail="Prompt cannot contain only whitespace.",
         )
 
-    # Check the estimated budget before calling an AI provider.
-    if not is_workflow_within_budget():
+    
+    # Estimate the cost of the selected model and possible fallback.
+    # This check happens before any paid provider request.
+    if not is_routed_workflow_within_budget(
+        prompt=cleaned_prompt,
+    ):
 
-        # Reject the request if the estimate exceeds our budget.
+        # Reject workflows whose planned cost exceeds our budget.
         raise HTTPException(
             status_code=403,
             detail="Estimated workflow cost exceeds the configured budget.",
         )
-    
+
     # Attempt to run our AI workflow safely.
     try:
 
