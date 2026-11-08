@@ -243,3 +243,35 @@ def test_fallback_blocked_when_budget_is_insufficient():
 
     # Confirm only the first response is recorded.
     assert len(result.responses) == 1
+
+
+
+# Verify invalid prompts never reach the AI provider.
+def test_escalation_rejects_oversized_prompt():
+
+    # Import the shared character limit.
+    from config.budget import MAX_PROMPT_CHARACTERS
+
+    # Create a prompt that exceeds the limit.
+    oversized_prompt = "A" * (MAX_PROMPT_CHARACTERS + 1)
+
+    # Replace real provider requests with a mock.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+    ) as mock_send:
+
+        # Run the workflow and capture its validation error.
+        try:
+            asyncio.run(route_with_escalation(oversized_prompt))
+
+        # Confirm the expected error was raised.
+        except ValueError:
+            pass
+
+        # Fail the test if no error occurred.
+        else:
+            raise AssertionError("Oversized prompt was not rejected")
+
+        # Confirm no paid AI provider request was made.
+        mock_send.assert_not_awaited()

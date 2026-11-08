@@ -26,6 +26,9 @@ from src.router.model_cost_estimator import estimate_model_cost
 # Import our prompt-based token estimator.
 from src.router.token_estimator import estimate_input_tokens
 
+# Import our shared prompt validation function.
+from src.router.prompt_validator import validate_prompt
+
 # Import our asynchronous quality checker and result type.
 from src.verifier.quality_verifier import (
     QualityResult,
@@ -62,6 +65,9 @@ class EscalationResult:
 
 # Route a prompt, verify the response, and escalate if empty.
 async def route_with_escalation(prompt: str) -> EscalationResult:
+
+     # Validate the prompt before making any AI provider requests.
+    prompt = validate_prompt(prompt)
 
     # Ask our intelligent router to select the first model.
     decision = route_prompt(prompt)
