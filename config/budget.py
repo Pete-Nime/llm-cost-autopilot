@@ -3,6 +3,10 @@
 # 0.01 means one US cent.
 MAX_REQUEST_COST_USD = 0.01
 
+# Maximum number of characters accepted in one API prompt.
+# This is a character limit, not an exact token limit.
+MAX_PROMPT_CHARACTERS = 2000
+
 # Maximum input tokens we plan for per request.
 # This is a planning assumption, not a tokenizer-enforced limit.
 MAX_ESTIMATED_INPUT_TOKENS = 1000

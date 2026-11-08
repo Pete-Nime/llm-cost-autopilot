@@ -426,3 +426,84 @@ def test_api_uses_real_routed_budget_policy(monkeypatch):
 
     # Confirm our fake workflow ran exactly once.
     fake_workflow.assert_awaited_once_with("What is Python?")
+
+
+
+# Verify that the API accepts a prompt at the character limit.
+def test_preview_accepts_maximum_prompt_length():
+
+    # Import our shared input-size configuration.
+    from config.budget import MAX_PROMPT_CHARACTERS
+
+    # Create a prompt exactly at the maximum length.
+    prompt = "A" * MAX_PROMPT_CHARACTERS
+
+    # Send the prompt to the preview endpoint.
+    response = client.post(
+        "/route/preview",
+        json={"prompt": prompt},
+    )
+
+    # The prompt length itself should be valid.
+    assert response.status_code == 200
+
+
+# Verify that the execution endpoint rejects oversized prompts.
+def test_execution_rejects_oversized_prompt(monkeypatch):
+
+    # Enable AI execution for this test only.
+    monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
+
+    # Import the shared input-size limit.
+    from config.budget import MAX_PROMPT_CHARACTERS
+
+    # Create a prompt that exceeds the limit.
+    prompt = "A" * (MAX_PROMPT_CHARACTERS + 1)
+
+    # Create a fake workflow to detect accidental execution.
+    fake_workflow = AsyncMock()
+
+    # Replace real AI execution with the fake workflow.
+    monkeypatch.setattr(
+        "src.api.main.run_and_log",
+        fake_workflow,
+    )
+
+    # Submit the oversized prompt.
+    response = client.post(
+        "/route/execute",
+        json={"prompt": prompt},
+    )
+
+    # FastAPI should reject the prompt before execution.
+    assert response.status_code == 422
+
+    # No provider workflow should run.
+    fake_workflow.assert_not_awaited()
+
+
+# Verify that execution rejects whitespace-only prompts.
+def test_execution_rejects_whitespace(monkeypatch):
+
+    # Enable execution for this test.
+    monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
+
+    # Replace provider execution with a mock.
+    fake_workflow = AsyncMock()
+
+    monkeypatch.setattr(
+        "src.api.main.run_and_log",
+        fake_workflow,
+    )
+
+    # Send a prompt containing only spaces.
+    response = client.post(
+        "/route/execute",
+        json={"prompt": "   "},
+    )
+
+    # The API must reject it.
+    assert response.status_code == 422
+
+    # The AI provider must never be contacted.
+    fake_workflow.assert_not_awaited()

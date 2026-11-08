@@ -20,7 +20,11 @@ import os
 from src.database.workflow_logger import run_and_log
 
 # Import the budget threshold.
-from config.budget import MAX_REQUEST_COST_USD
+# Import the shared budget and input-size settings.
+from config.budget import (
+    MAX_REQUEST_COST_USD,
+    MAX_PROMPT_CHARACTERS,
+)
 
 # Import the fallback-aware budget policy.
 from src.router.budget_policy import (
@@ -40,7 +44,7 @@ class RoutingRequest(BaseModel):
     # Require a prompt containing between 1 and 2000 characters.
     prompt: str = Field(
         min_length=1,
-        max_length=2000,
+       max_length=MAX_PROMPT_CHARACTERS,
     )
 
 # Describe the response returned after AI execution.
@@ -128,15 +132,6 @@ async def route_execute(request: RoutingRequest):
     # Remove unnecessary whitespace from the prompt.
     cleaned_prompt = request.prompt.strip()
 
-    # Reject prompts containing only whitespace.
-    if not cleaned_prompt:
-
-        # Return a validation error.
-        raise HTTPException(
-            status_code=422,
-            detail="Prompt cannot contain only whitespace.",
-        )
-    
 
     # Reject prompts containing only whitespace.
     if not cleaned_prompt:
