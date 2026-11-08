@@ -23,6 +23,9 @@ from src.providers.model_registry import ModelConfig
 # Import our standardized response class.
 from src.providers.response import ModelResponse
 
+# Import the maximum number of output tokens allowed.
+# This value is shared by all three AI providers.
+from config.budget import MAX_OUTPUT_TOKENS
 
 # Define the one function used to call every provider.
 async def send_request(
@@ -50,12 +53,19 @@ async def send_request(
         # Create an asynchronous OpenAI client.
         client = AsyncOpenAI(api_key=api_key)
 
-        # Send the prompt to the selected OpenAI model.
+        # Send the prompt to OpenAI with an output-token limit.
         response = await client.chat.completions.create(
+
+            # Use the model selected by our intelligent router.
             model=model_config.model_id,
+
+            # Send the customer's question.
             messages=[
                 {"role": "user", "content": prompt}
-            ]
+            ],
+
+            # Limit the maximum number of completion tokens.
+            max_completion_tokens=MAX_OUTPUT_TOKENS,
         )
 
         # Extract the text returned by the model.
@@ -81,7 +91,8 @@ async def send_request(
         # Send the prompt using Anthropic's Messages API.
         response = await client.messages.create(
             model=model_config.model_id,
-            max_tokens=1024,
+            # Use the same configured output-token limit.
+            max_tokens=MAX_OUTPUT_TOKENS,
             messages=[
                 {"role": "user", "content": prompt}
             ]
@@ -114,9 +125,20 @@ async def send_request(
             response = await client.post(
                 f"{base_url}/api/generate",
                 json={
+
+                    # Select the locally installed model.
                     "model": model_config.model_id,
+
+                    # Send the customer's question.
                     "prompt": prompt,
-                    "stream": False
+
+                    # Return the complete response instead of streaming.
+                    "stream": False,
+
+                    # Configure the maximum number of generated tokens.
+                    "options": {
+                        "num_predict": MAX_OUTPUT_TOKENS,
+                    },
                 }
             )
 

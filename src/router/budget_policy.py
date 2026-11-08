@@ -11,6 +11,9 @@ from config.budget import (
 # Import the model-specific estimator created earlier.
 from src.router.model_cost_estimator import estimate_model_cost
 
+# Import our new prompt-based token estimator.
+from src.router.token_estimator import estimate_input_tokens
+
 # Calculate our conservative planning cost.
 def estimate_max_workflow_cost() -> float:
 
@@ -87,13 +90,21 @@ def is_model_within_budget(
 # Estimate the cost of a routed workflow, including fallback.
 def estimate_routed_workflow_cost(
     prompt: str,
-    input_tokens: int = MAX_ESTIMATED_INPUT_TOKENS,
+    input_tokens: int | None = None,
     output_tokens: int = MAX_OUTPUT_TOKENS,
 ) -> float:
 
     # Import our existing router to choose the first model.
     from src.router.intelligent_router import route_prompt
 
+    # Estimate tokens from the prompt when no count was supplied.
+    if input_tokens is None:
+        input_tokens = estimate_input_tokens(prompt)
+
+    # Reject invalid token counts.
+    if input_tokens < 0:
+        raise ValueError("Input tokens cannot be negative")
+    
     # Determine which model handles the prompt.
     decision = route_prompt(prompt)
 
@@ -123,7 +134,7 @@ def estimate_routed_workflow_cost(
 # Check whether the routed workflow fits our budget.
 def is_routed_workflow_within_budget(
     prompt: str,
-    input_tokens: int = MAX_ESTIMATED_INPUT_TOKENS,
+    input_tokens: int | None = None,
     output_tokens: int = MAX_OUTPUT_TOKENS,
 ) -> bool:
 

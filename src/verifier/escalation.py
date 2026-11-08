@@ -14,6 +14,18 @@ from src.providers.response import ModelResponse
 # Import the model registry.
 from src.providers.model_registry import load_model_registry
 
+# Import our configured spending and token limits.
+from config.budget import (
+    MAX_REQUEST_COST_USD,
+    MAX_OUTPUT_TOKENS,
+)
+
+# Import the model-specific cost estimator.
+from src.router.model_cost_estimator import estimate_model_cost
+
+# Import our prompt-based token estimator.
+from src.router.token_estimator import estimate_input_tokens
+
 # Import our asynchronous quality checker and result type.
 from src.verifier.quality_verifier import (
     QualityResult,
@@ -93,6 +105,39 @@ async def route_with_escalation(prompt: str) -> EscalationResult:
 
     # Select the stronger fallback model.
     stronger_model = registry["gpt-4o"]
+
+    
+    # Calculate how much money remains after the first request.
+    remaining_budget = (
+        MAX_REQUEST_COST_USD - first_response.cost_usd
+    )
+
+    # Estimate the fallback's input tokens from the prompt.
+    estimated_fallback_input_tokens = estimate_input_tokens(prompt)
+
+    # Estimate the possible GPT-4o fallback cost.
+    estimated_fallback_cost = estimate_model_cost(
+        model_name="gpt-4o",
+        input_tokens=estimated_fallback_input_tokens,
+        output_tokens=MAX_OUTPUT_TOKENS,
+    )
+
+    # Check whether the fallback fits the remaining budget.
+    if estimated_fallback_cost > remaining_budget:
+
+        # Return the first response without making another API call.
+        return EscalationResult(
+            response=first_response,
+            escalated=False,
+            attempts=1,
+            reason=(
+                "Initial answer was empty; fallback blocked "
+                "because its estimated cost exceeds the remaining budget."
+            ),
+            quality=first_quality,
+            responses=(first_response,),
+        )
+
 
     # Make one additional AI request.
     second_response = await send_request(

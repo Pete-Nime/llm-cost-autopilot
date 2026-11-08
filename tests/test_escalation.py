@@ -162,3 +162,84 @@ def test_escalation_returns_quality_result():
 
     # Confirm the score is within the expected range.
     assert 0.0 <= result.quality.score <= 1.0
+
+
+
+# Verify that an affordable fallback is allowed.
+def test_fallback_allowed_when_budget_is_sufficient():
+
+    # Simulate an empty first response with a small cost.
+    first = make_response("", "gpt-4o-mini")
+
+    # Simulate a successful GPT-4o fallback.
+    second = make_response("Fallback succeeded.", "gpt-4o")
+
+    # Replace real provider requests with simulated responses.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+    ) as mock_send:
+
+        # Return the first and second responses in order.
+        mock_send.side_effect = [first, second]
+
+        # Execute the escalation workflow.
+        result = asyncio.run(
+            route_with_escalation("What is Python?")
+        )
+
+        # Verify both provider requests were made.
+        assert mock_send.await_count == 2
+
+    # Confirm that fallback was allowed.
+    assert result.escalated is True
+
+    # Confirm the workflow used two attempts.
+    assert result.attempts == 2
+
+
+# Verify that an unaffordable fallback is blocked.
+def test_fallback_blocked_when_budget_is_insufficient():
+
+    # Simulate an empty first response.
+    first = ModelResponse(
+        output_text="",
+        input_tokens=10,
+        output_tokens=20,
+        latency_ms=100.0,
+
+        # Leave only $0.001 of the $0.01 budget.
+        cost_usd=0.009,
+
+        model_id="gpt-4o-mini",
+        provider="openai",
+    )
+
+    # Replace real provider calls with a simulated response.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+    ) as mock_send:
+
+        # Return the expensive first response.
+        mock_send.return_value = first
+
+        # Execute the escalation workflow.
+        result = asyncio.run(
+            route_with_escalation("What is Python?")
+        )
+
+        # Verify that no second request was made.
+        assert mock_send.await_count == 1
+
+    # Confirm the fallback was blocked.
+    assert result.escalated is False
+
+    # Confirm only one provider attempt occurred.
+    assert result.attempts == 1
+
+    # Confirm the reason explains the budget restriction.
+    assert "fallback blocked" in result.reason
+
+    # Confirm only the first response is recorded.
+    assert len(result.responses) == 1
