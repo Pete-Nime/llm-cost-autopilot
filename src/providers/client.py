@@ -27,15 +27,18 @@ from src.providers.response import ModelResponse
 # This value is shared by all three AI providers.
 from config.budget import MAX_OUTPUT_TOKENS
 
+# Import our shared input validator.
+from src.router.prompt_validator import validate_prompt
+
 # Define the one function used to call every provider.
 async def send_request(
     prompt: str,
     model_config: ModelConfig
 ) -> ModelResponse:
 
-    # Reject prompts containing only whitespace.
-    if not prompt.strip():
-        raise ValueError("Prompt cannot be empty")
+    # Validate the prompt before contacting any AI provider.
+    # Reject invalid types, blank prompts and oversized inputs.
+    prompt = validate_prompt(prompt)
 
     # Remember when the request started.
     start_time = time.perf_counter()

@@ -135,3 +135,44 @@ def test_route_and_send_uses_selected_model():
     # Confirm the response includes token usage.
     assert result.response.input_tokens == 10
     assert result.response.output_tokens == 20
+
+
+
+# Verify the router rejects oversized prompts.
+def test_router_rejects_oversized_prompt():
+
+    # Import our shared character limit.
+    from config.budget import MAX_PROMPT_CHARACTERS
+
+    # Create a prompt longer than our configured limit.
+    prompt = "A" * (MAX_PROMPT_CHARACTERS + 1)
+
+    # Import pytest locally so no new global import is needed.
+    import pytest
+
+    # The router must reject the oversized prompt.
+    with pytest.raises(ValueError):
+        route_prompt(prompt)
+
+
+# Verify the direct routing workflow rejects oversized prompts.
+def test_route_and_send_rejects_oversized_prompt():
+
+    # Import asyncio to run our asynchronous function.
+    import asyncio
+
+    # Import the shared character limit.
+    from config.budget import MAX_PROMPT_CHARACTERS
+
+    # Import pytest for exception testing.
+    import pytest
+
+    # Import our direct routing function.
+    from src.router.intelligent_router import route_and_send
+
+    # Create an oversized prompt.
+    prompt = "A" * (MAX_PROMPT_CHARACTERS + 1)
+
+    # The workflow must fail before reaching an AI provider.
+    with pytest.raises(ValueError):
+        asyncio.run(route_and_send(prompt))

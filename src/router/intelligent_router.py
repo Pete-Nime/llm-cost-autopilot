@@ -21,6 +21,8 @@ from src.providers.client import send_request
 # Import the standardized response type.
 from src.providers.response import ModelResponse
 
+# Import our reusable prompt validator.
+from src.router.prompt_validator import validate_prompt
 
 # Define which model handles each difficulty level.
 # These are initial choices that we will evaluate later.
@@ -62,6 +64,9 @@ class RoutedResponse:
 
 # Create a function that chooses a model for a question.
 def route_prompt(prompt: str) -> RoutingDecision:
+
+        # Validate and clean the prompt before classifying it.
+    prompt = validate_prompt(prompt)
 
     # Ask our classifier to determine question difficulty.
     complexity = classify_complexity(prompt)
@@ -105,6 +110,9 @@ model_config: ModelConfig
 
 # Create an asynchronous function for automatic AI routing.
 async def route_and_send(prompt: str) -> RoutedResponse:
+
+    # Validate the prompt before routing and sending it.
+    prompt = validate_prompt(prompt)
 
     # Classify the question and select a registered model.
     decision = route_prompt(prompt)

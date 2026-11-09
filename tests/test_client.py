@@ -209,3 +209,99 @@ async def test_ollama_output_token_limit(monkeypatch):
 
     # Confirm Ollama received our configured generation limit.
     assert sent_json["options"]["num_predict"] == MAX_OUTPUT_TOKENS
+
+
+
+# Verify direct provider calls reject oversized prompts.
+@pytest.mark.asyncio
+async def test_provider_rejects_oversized_prompt(monkeypatch):
+
+    # Import our shared character limit.
+    from config.budget import MAX_PROMPT_CHARACTERS
+
+    # Load an existing model configuration.
+    registry = load_model_registry()
+
+    # Create a prompt one character over the limit.
+    prompt = "A" * (MAX_PROMPT_CHARACTERS + 1)
+
+    # Create a fake provider client that must not be used.
+    fake_client = AsyncMock()
+
+    # Replace the real OpenAI client with our fake.
+    monkeypatch.setattr(
+        "src.providers.client.AsyncOpenAI",
+        fake_client,
+    )
+
+    # Expect the validator to reject the oversized prompt.
+    with pytest.raises(ValueError):
+        await send_request(prompt, registry["gpt-4o-mini"])
+
+    # Confirm no provider client was created.
+    fake_client.assert_not_called()
+
+
+# Verify direct provider calls reject non-string inputs.
+@pytest.mark.asyncio
+async def test_provider_rejects_invalid_prompt_type():
+
+    # Load an existing registered model.
+    registry = load_model_registry()
+
+    # Passing an integer must raise TypeError.
+    with pytest.raises(TypeError):
+        await send_request(123, registry["gpt-4o-mini"])
+
+
+# Verify the provider receives the cleaned prompt.
+@pytest.mark.asyncio
+async def test_provider_receives_cleaned_prompt(monkeypatch):
+
+    # Use a fake API key for this test.
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+
+    # Create a fake provider response.
+    fake_response = SimpleNamespace(
+        choices=[
+            SimpleNamespace(
+                message=SimpleNamespace(content="Hello!")
+            )
+        ],
+        usage=SimpleNamespace(
+            prompt_tokens=10,
+            completion_tokens=5,
+        ),
+    )
+
+    # Create a fake asynchronous provider request.
+    fake_create = AsyncMock(return_value=fake_response)
+
+    # Replace the real OpenAI SDK client.
+    monkeypatch.setattr(
+        "src.providers.client.AsyncOpenAI",
+        lambda api_key: SimpleNamespace(
+            chat=SimpleNamespace(
+                completions=SimpleNamespace(
+                    create=fake_create
+                )
+            )
+        ),
+    )
+
+    # Load our existing model registry.
+    registry = load_model_registry()
+
+    # Submit a prompt with surrounding whitespace.
+    await send_request(
+        "  Say hello  ",
+        registry["gpt-4o-mini"],
+    )
+
+    # Inspect the messages sent to the fake provider.
+    sent_messages = fake_create.await_args.kwargs["messages"]
+
+    # Confirm the provider received the cleaned text.
+    assert sent_messages == [
+        {"role": "user", "content": "Say hello"}
+    ]
