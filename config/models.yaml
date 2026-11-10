@@ -27,8 +27,8 @@ models:
   claude-sonnet:
     provider: anthropic
     model_id: claude-sonnet-5-5
-    input_cost_per_million: 3.00
-    output_cost_per_million: 15.00
+    input_cost_per_million: 2.00
+    output_cost_per_million: 10.00
     average_latency_ms: 1200
     quality_tier: high
 
@@ -37,8 +37,8 @@ models:
   claude-haiku:
     provider: anthropic
     model_id: claude-haiku-5-5
-    input_cost_per_million: 0.80
-    output_cost_per_million: 4.00
+    input_cost_per_million: 0.10
+    output_cost_per_million: 0.50
     average_latency_ms: 700
     quality_tier: low
 
