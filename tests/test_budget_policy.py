@@ -1,3 +1,6 @@
+# Import pytest to check expected errors.
+import pytest
+
 
 from src.router.budget_policy import (
     estimate_max_workflow_cost,
@@ -135,3 +138,64 @@ def test_large_routed_workflow_exceeds_budget():
 
     # The estimated cost of both attempts exceeds $0.01.
     assert result is False
+
+
+
+# Reject a negative output-token count.
+def test_negative_output_tokens():
+
+    # Negative token counts are not valid.
+    with pytest.raises(ValueError):
+        estimate_routed_workflow_cost(
+            prompt="What is Python?",
+            input_tokens=100,
+            output_tokens=-1,
+        )
+
+
+# Reject fractional provider attempts.
+def test_fractional_attempt_count():
+
+    # We cannot make half of an AI request.
+    with pytest.raises(TypeError):
+        estimate_model_workflow_cost(
+            model_name="gpt-4o-mini",
+            attempts=1.5,
+        )
+
+
+# Reject fractional input-token counts.
+def test_fractional_input_tokens():
+
+    # Token counts must be whole numbers.
+    with pytest.raises(TypeError):
+        estimate_model_workflow_cost(
+            model_name="gpt-4o-mini",
+            input_tokens=12.5,
+        )
+
+
+# Reject boolean token counts.
+def test_boolean_token_count():
+
+    # Python treats True like 1, but this is not a valid token count.
+    with pytest.raises(TypeError):
+        estimate_routed_workflow_cost(
+            prompt="What is Python?",
+            input_tokens=True,
+        )
+
+
+# Confirm zero output tokens are allowed by the estimator.
+def test_zero_output_token_estimate():
+
+    # This checks the estimator, not provider API requirements.
+    cost = estimate_model_workflow_cost(
+        model_name="gpt-4o-mini",
+        input_tokens=100,
+        output_tokens=0,
+        attempts=1,
+    )
+
+    # Input tokens still have a cost.
+    assert cost >= 0

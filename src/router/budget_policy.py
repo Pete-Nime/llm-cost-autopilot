@@ -14,6 +14,19 @@ from src.router.model_cost_estimator import estimate_model_cost
 # Import our new prompt-based token estimator.
 from src.router.token_estimator import estimate_input_tokens
 
+
+# Check that a token or attempt count is a valid whole number.
+def validate_count(value: int, name: str, minimum: int = 0) -> None:
+
+    # Reject decimals, strings, booleans, and other invalid types.
+    if type(value) is not int:
+        raise TypeError(f"{name} must be an integer")
+
+    # Reject values below the permitted minimum.
+    if value < minimum:
+        raise ValueError(f"{name} must be at least {minimum}")
+
+
 # Calculate our conservative planning cost.
 def estimate_max_workflow_cost() -> float:
 
@@ -52,9 +65,14 @@ def estimate_model_workflow_cost(
     attempts: int = MAX_PROVIDER_ATTEMPTS,
 ) -> float:
 
-    # Reject invalid attempt counts.
-    if attempts < 1:
-        raise ValueError("Attempts must be at least 1")
+     # Ensure input tokens are valid whole numbers.
+    validate_count(input_tokens, "Input tokens")
+
+    # Ensure output tokens are valid whole numbers.
+    validate_count(output_tokens, "Output tokens")
+
+    # Ensure at least one whole provider attempt is requested.
+    validate_count(attempts, "Attempts", minimum=1)
 
     # Calculate the configured cost of one model call.
     cost_per_attempt = estimate_model_cost(
@@ -101,9 +119,11 @@ def estimate_routed_workflow_cost(
     if input_tokens is None:
         input_tokens = estimate_input_tokens(prompt)
 
-    # Reject invalid token counts.
-    if input_tokens < 0:
-        raise ValueError("Input tokens cannot be negative")
+    # Validate the input-token count.
+    validate_count(input_tokens, "Input tokens")
+
+    # Validate the output-token count.
+    validate_count(output_tokens, "Output tokens")
     
     # Determine which model handles the prompt.
     decision = route_prompt(prompt)
