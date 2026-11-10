@@ -29,6 +29,9 @@ from src.router.token_estimator import estimate_input_tokens
 # Import our shared prompt validation function.
 from src.router.prompt_validator import validate_prompt
 
+# Import our existing workflow budget estimator.
+from src.router.budget_policy import estimate_routed_workflow_cost
+
 # Import our asynchronous quality checker and result type.
 from src.verifier.quality_verifier import (
     QualityResult,
@@ -66,11 +69,26 @@ class EscalationResult:
 # Route a prompt, verify the response, and escalate if empty.
 async def route_with_escalation(prompt: str) -> EscalationResult:
 
-     # Validate the prompt before making any AI provider requests.
+     
+    # Validate and clean the customer's question.
     prompt = validate_prompt(prompt)
 
-    # Ask our intelligent router to select the first model.
+    # Estimate the maximum planned cost of this routed workflow.
+    # Include the first model and any possible GPT-4o fallback.
+    estimated_workflow_cost = estimate_routed_workflow_cost(
+        prompt=prompt,
+    )
+
+    # Reject the workflow before any paid provider call
+    # when its estimated cost exceeds our configured limit.
+    if estimated_workflow_cost > MAX_REQUEST_COST_USD:
+        raise ValueError(
+            "Estimated workflow cost exceeds the configured budget."
+        )
+
+    # Choose the first model only after the budget check passes.
     decision = route_prompt(prompt)
+
 
     # Send the question to the selected model.
     first_response = await send_request(

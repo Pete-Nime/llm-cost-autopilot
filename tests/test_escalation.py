@@ -11,6 +11,9 @@ from src.verifier.escalation import route_with_escalation
 # Import the standardized response structure.
 from src.providers.response import ModelResponse
 
+# Import pytest to run tests and check expected errors.
+import pytest
+
 
 # Create a fake response for testing without API charges.
 def make_response(text: str, model_id: str) -> ModelResponse:
@@ -275,3 +278,82 @@ def test_escalation_rejects_oversized_prompt():
 
         # Confirm no paid AI provider request was made.
         mock_send.assert_not_awaited()
+
+
+
+
+# Verify an over-budget workflow is blocked before contacting AI.
+@pytest.mark.asyncio
+async def test_initial_budget_rejection_prevents_provider_call(
+    monkeypatch,
+):
+
+    # Import the escalation module so we can modify
+    # its budget value temporarily during this test.
+    import src.verifier.escalation as escalation_module
+
+    # Set a tiny test-only budget of $0.000001.
+    # This does not change config/budget.py.
+    monkeypatch.setattr(
+        escalation_module,
+        "MAX_REQUEST_COST_USD",
+        0.000001,
+    )
+
+    # Use a valid question that normally routes to GPT-4o-mini.
+    prompt = "What is Python?"
+
+    # Replace the real AI provider with a fake function.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+    ) as mock_send:
+
+        # Expect the workflow to reject the estimated cost.
+        with pytest.raises(
+            ValueError,
+            match="Estimated workflow cost exceeds",
+        ):
+            await route_with_escalation(prompt)
+
+        # Verify that no real or fake provider request was made.
+        mock_send.assert_not_awaited()
+
+
+
+# Verify that an affordable workflow can contact the AI provider.
+@pytest.mark.asyncio
+async def test_initial_budget_allows_affordable_workflow():
+
+    # Create a short, affordable question.
+    prompt = "What is Python?"
+
+    # Simulate a successful AI provider response.
+    fake_response = ModelResponse(
+        output_text="Python is a programming language.",
+        input_tokens=10,
+        output_tokens=20,
+        latency_ms=100.0,
+        cost_usd=0.0001,
+        model_id="gpt-4o-mini",
+        provider="openai",
+    )
+
+    # Replace the real provider with our simulated response.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+        return_value=fake_response,
+    ) as mock_send:
+
+        # Execute the workflow using the fake provider.
+        result = await route_with_escalation(prompt)
+
+        # Confirm the provider was contacted once.
+        mock_send.assert_awaited_once()
+
+        # Confirm the expected response was returned.
+        assert result.response is fake_response
+
+        # Confirm that escalation was unnecessary.
+        assert result.escalated is False
