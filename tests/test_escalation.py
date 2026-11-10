@@ -288,14 +288,13 @@ async def test_initial_budget_rejection_prevents_provider_call(
     monkeypatch,
 ):
 
-    # Import the escalation module so we can modify
-    # its budget value temporarily during this test.
-    import src.verifier.escalation as escalation_module
+    # Import the central budget configuration for test-only changes.
+    import config.budget as budget_config
 
     # Set a tiny test-only budget of $0.000001.
     # This does not change config/budget.py.
     monkeypatch.setattr(
-        escalation_module,
+        budget_config,
         "MAX_REQUEST_COST_USD",
         0.000001,
     )

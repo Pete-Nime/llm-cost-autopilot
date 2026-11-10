@@ -14,10 +14,12 @@ from src.providers.response import ModelResponse
 # Import the model registry.
 from src.providers.model_registry import load_model_registry
 
+# Import our central budget settings for consistent enforcement.
+import config.budget as budget_config
+
 # Import our configured spending and token limits.
 from config.budget import (
-    MAX_REQUEST_COST_USD,
-    MAX_OUTPUT_TOKENS,
+    MAX_OUTPUT_TOKENS
 )
 
 # Import the model-specific cost estimator.
@@ -81,7 +83,7 @@ async def route_with_escalation(prompt: str) -> EscalationResult:
 
     # Reject the workflow before any paid provider call
     # when its estimated cost exceeds our configured limit.
-    if estimated_workflow_cost > MAX_REQUEST_COST_USD:
+    if estimated_workflow_cost > budget_config.MAX_REQUEST_COST_USD:
         raise ValueError(
             "Estimated workflow cost exceeds the configured budget."
         )
@@ -133,7 +135,7 @@ async def route_with_escalation(prompt: str) -> EscalationResult:
     
     # Calculate how much money remains after the first request.
     remaining_budget = (
-        MAX_REQUEST_COST_USD - first_response.cost_usd
+        budget_config.MAX_REQUEST_COST_USD - first_response.cost_usd
     )
 
     # Estimate the fallback's input tokens from the prompt.

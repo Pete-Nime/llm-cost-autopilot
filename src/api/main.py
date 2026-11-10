@@ -14,7 +14,8 @@ from src.router.intelligent_router import route_prompt
 # Read environment variables used to control execution.
 import os
 
-
+# Read the current shared budget when reporting workflow costs.
+import config.budget as budget_config
 
 # Import our existing workflow that executes and logs AI requests.
 from src.database.workflow_logger import run_and_log
@@ -22,8 +23,7 @@ from src.database.workflow_logger import run_and_log
 # Import the budget threshold.
 # Import the shared budget and input-size settings.
 from config.budget import (
-    MAX_REQUEST_COST_USD,
-    MAX_PROMPT_CHARACTERS,
+    MAX_PROMPT_CHARACTERS
 )
 
 # Import the fallback-aware budget policy.
@@ -187,7 +187,9 @@ async def route_execute(request: RoutingRequest):
         attempts=result.attempts,
         # Report the cost of the entire workflow, not just the final answer.
         estimated_cost_usd=total_cost_usd,
-        # Report whether the workflow exceeded one US cent.
-        budget_exceeded=total_cost_usd > MAX_REQUEST_COST_USD,
+        # Compare the completed workflow cost against our shared budget.
+        budget_exceeded=(
+            total_cost_usd > budget_config.MAX_REQUEST_COST_USD
+        ),
     )   
 

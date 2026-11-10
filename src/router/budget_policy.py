@@ -14,6 +14,9 @@ from src.router.model_cost_estimator import estimate_model_cost
 # Import our new prompt-based token estimator.
 from src.router.token_estimator import estimate_input_tokens
 
+# Import the budget module itself so we read its current values.
+import config.budget as budget_config
+
 
 # Check that a token or attempt count is a valid whole number.
 def validate_count(value: int, name: str, minimum: int = 0) -> None:
@@ -54,7 +57,7 @@ def estimate_max_workflow_cost() -> float:
 def is_workflow_within_budget() -> bool:
 
     # Compare the estimated cost with the configured threshold.
-    return estimate_max_workflow_cost() <= MAX_REQUEST_COST_USD
+    return estimate_max_workflow_cost() <= budget_config.MAX_REQUEST_COST_USD
 
 
 # Estimate the planned cost for a particular AI model.
@@ -166,4 +169,4 @@ def is_routed_workflow_within_budget(
     )
 
     # Compare with the configured request budget.
-    return estimated_cost <= MAX_REQUEST_COST_USD
+    return estimated_cost <= budget_config.MAX_REQUEST_COST_USD

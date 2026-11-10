@@ -199,3 +199,39 @@ def test_zero_output_token_estimate():
 
     # Input tokens still have a cost.
     assert cost >= 0
+
+
+
+# Confirm that budget policy reads the central budget configuration.
+def test_routed_budget_uses_shared_configuration(monkeypatch):
+
+    # Import the central configuration module.
+    import config.budget as budget_config
+
+    # Use a short, valid prompt.
+    prompt = "What is Python?"
+
+    # Calculate the expected workflow cost.
+    estimated_cost = estimate_routed_workflow_cost(
+        prompt=prompt,
+    )
+
+    # Temporarily make the shared budget smaller than that cost.
+    monkeypatch.setattr(
+        budget_config,
+        "MAX_REQUEST_COST_USD",
+        estimated_cost / 2,
+    )
+
+    # Confirm that the workflow is now considered unaffordable.
+    assert is_routed_workflow_within_budget(prompt) is False
+
+    # Temporarily make the shared budget larger than that cost.
+    monkeypatch.setattr(
+        budget_config,
+        "MAX_REQUEST_COST_USD",
+        estimated_cost * 2,
+    )
+
+    # Confirm that the same workflow is now affordable.
+    assert is_routed_workflow_within_budget(prompt) is True
