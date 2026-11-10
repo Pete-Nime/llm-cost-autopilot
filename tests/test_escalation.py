@@ -356,3 +356,90 @@ async def test_initial_budget_allows_affordable_workflow():
 
         # Confirm that escalation was unnecessary.
         assert result.escalated is False
+
+
+
+# Verify the fallback cannot spend more than the remaining budget.
+@pytest.mark.asyncio
+async def test_fallback_blocked_without_second_provider_call(monkeypatch):
+
+    # Import the shared budget settings.
+    import config.budget as budget_config
+
+    # Use a short prompt that routes to GPT-4o-mini.
+    prompt = "What is Python?"
+
+    # Create a fake first response with no answer.
+    first_response = ModelResponse(
+        output_text="",
+        input_tokens=10,
+        output_tokens=0,
+        latency_ms=100.0,
+        cost_usd=0.009,
+        model_id="gpt-4o-mini",
+        provider="openai",
+    )
+
+    # Keep the normal one-cent workflow budget.
+    monkeypatch.setattr(
+        budget_config,
+        "MAX_REQUEST_COST_USD",
+        0.01,
+    )
+
+    # Replace real AI requests with our fake response.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+        return_value=first_response,
+    ) as mock_send:
+
+        # Run the workflow without contacting a real AI provider.
+        result = await route_with_escalation(prompt)
+
+        # Only the initial provider request should occur.
+        assert mock_send.await_count == 1
+
+        # No fallback request should be performed.
+        assert result.escalated is False
+
+        # Confirm the workflow used one provider attempt.
+        assert result.attempts == 1
+
+        # Confirm the result explains why fallback was blocked.
+        assert "remaining budget" in result.reason
+
+
+
+# Verify an over-budget workflow never contacts the provider.
+@pytest.mark.asyncio
+async def test_preflight_rejection_never_calls_provider(monkeypatch):
+
+    # Import our shared budget configuration.
+    import config.budget as budget_config
+
+    # Use a valid prompt.
+    prompt = "What is Python?"
+
+    # Set a very small budget that cannot cover the workflow.
+    monkeypatch.setattr(
+        budget_config,
+        "MAX_REQUEST_COST_USD",
+        0.000001,
+    )
+
+    # Replace real AI calls with a mock.
+    with patch(
+        "src.verifier.escalation.send_request",
+        new_callable=AsyncMock,
+    ) as mock_send:
+
+        # The workflow should reject the request before execution.
+        with pytest.raises(
+            ValueError,
+            match="Estimated workflow cost exceeds",
+        ):
+            await route_with_escalation(prompt)
+
+        # Confirm no provider request was attempted.
+        mock_send.assert_not_awaited()

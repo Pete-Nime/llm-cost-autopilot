@@ -235,3 +235,55 @@ def test_routed_budget_uses_shared_configuration(monkeypatch):
 
     # Confirm that the same workflow is now affordable.
     assert is_routed_workflow_within_budget(prompt) is True
+
+
+
+# Verify a workflow is allowed when its estimate equals the budget.
+def test_workflow_allowed_at_exact_budget(monkeypatch):
+
+    # Import the shared budget configuration.
+    import config.budget as budget_config
+
+    # Create a simple test question.
+    prompt = "What is Python?"
+
+    # Calculate the estimated cost of the full workflow.
+    estimated_cost = estimate_routed_workflow_cost(
+        prompt=prompt,
+    )
+
+    # Set the budget to exactly the estimated workflow cost.
+    monkeypatch.setattr(
+        budget_config,
+        "MAX_REQUEST_COST_USD",
+        estimated_cost,
+    )
+
+    # Equality should be allowed because the check uses <=.
+    assert is_routed_workflow_within_budget(prompt) is True
+
+
+
+# Verify that a budget just below the estimated cost rejects the workflow.
+def test_workflow_rejected_just_above_budget(monkeypatch):
+
+    # Import the central budget configuration.
+    import config.budget as budget_config
+
+    # Use the same simple question for a consistent estimate.
+    prompt = "What is Python?"
+
+    # Estimate the cost of the routed workflow.
+    estimated_cost = estimate_routed_workflow_cost(
+        prompt=prompt,
+    )
+
+    # Set the allowed budget slightly below the estimated cost.
+    monkeypatch.setattr(
+        budget_config,
+        "MAX_REQUEST_COST_USD",
+        estimated_cost / 2,
+    )
+
+    # The workflow should now be rejected.
+    assert is_routed_workflow_within_budget(prompt) is False
