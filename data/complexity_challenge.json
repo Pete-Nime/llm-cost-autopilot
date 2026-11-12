@@ -1,0 +1,78 @@
+
+[
+  {
+    "id": "C001",
+    "prompt": "Name the capital of Japan.",
+    "complexity": "simple"
+  },
+  {
+    "id": "C002",
+    "prompt": "State the chemical symbol for gold.",
+    "complexity": "simple"
+  },
+  {
+    "id": "C003",
+    "prompt": "Identify the largest planet in our solar system.",
+    "complexity": "simple"
+  },
+  {
+    "id": "C004",
+    "prompt": "List three common programming languages.",
+    "complexity": "simple"
+  },
+  {
+    "id": "C005",
+    "prompt": "Name the primary language used to structure web pages.",
+    "complexity": "simple"
+  },
+  {
+    "id": "C006",
+    "prompt": "Summarise the main argument of this three-page article.",
+    "complexity": "medium"
+  },
+  {
+    "id": "C007",
+    "prompt": "Show the differences between SQL joins using sample customer records.",
+    "complexity": "medium"
+  },
+  {
+    "id": "C008",
+    "prompt": "Turn these meeting notes into a concise action list.",
+    "complexity": "medium"
+  },
+  {
+    "id": "C009",
+    "prompt": "Rewrite this customer email in a professional tone while preserving its meaning.",
+    "complexity": "medium"
+  },
+  {
+    "id": "C010",
+    "prompt": "Group these customer complaints into categories and present the totals.",
+    "complexity": "medium"
+  },
+  {
+    "id": "C011",
+    "prompt": "Our payment service fails during major sales events. Propose an architecture that can handle sudden traffic spikes while keeping transactions consistent.",
+    "complexity": "complex"
+  },
+  {
+    "id": "C012",
+    "prompt": "A financial institution needs to move sensitive customer records between cloud providers while maintaining availability and regulatory compliance. Develop a migration strategy.",
+    "complexity": "complex"
+  },
+  {
+    "id": "C013",
+    "prompt": "Investigate why our distributed data pipeline loses messages under heavy load and propose a reliable recovery mechanism.",
+    "complexity": "complex"
+  },
+  {
+    "id": "C014",
+    "prompt": "Our AI application must serve ten thousand concurrent users while controlling inference expenses and protecting private data. Recommend an end-to-end solution.",
+    "complexity": "complex"
+  },
+  {
+    "id": "C015",
+    "prompt": "Determine how to restructure a failing inventory platform that operates across multiple countries while minimizing disruption to existing customers.",
+    "complexity": "complex"
+  }
+]

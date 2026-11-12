@@ -1,0 +1,1052 @@
+[
+  {
+    "id": "V2-001",
+    "prompt": "In one sentence, tell me what a database is without using technical jargon.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-002",
+    "prompt": "Which Python keyword creates a function?",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-003",
+    "prompt": "Return the result of multiplying seven by eight as a JSON number.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-004",
+    "prompt": "Identify the programming language commonly used for styling web pages.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-005",
+    "prompt": "Write a friendly one-line greeting for a new customer.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-006",
+    "prompt": "Organize these meeting notes into a table with decisions, owners and next actions.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-007",
+    "prompt": "Given a short CSV of monthly sales, calculate the total revenue and identify the strongest month.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-008",
+    "prompt": "Rewrite this customer complaint into a professional response while preserving the original meaning.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-009",
+    "prompt": "Describe the differences between SQL INNER JOIN and LEFT JOIN using two small example tables.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-010",
+    "prompt": "Create a short project plan for launching a small business website, including milestones and responsibilities.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-011",
+    "prompt": "A payment platform intermittently loses transactions during peak traffic. Investigate possible distributed-system failure modes and develop a recovery strategy that preserves transaction consistency.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-012",
+    "prompt": "Our organization must migrate sensitive financial records between cloud providers without interrupting customer access. Develop an approach covering encryption, rollback, compliance and data validation.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-013",
+    "prompt": "A machine-learning service is producing inconsistent predictions after deployment. Determine how to isolate data drift, training-serving skew and infrastructure problems, then propose a monitoring strategy.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-014",
+    "prompt": "We operate a real-time analytics platform serving multiple countries. Propose a scalable event-processing design with disaster recovery, access controls and predictable infrastructure costs.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-015",
+    "prompt": "Evaluate competing architectures for an AI document-processing platform that handles confidential records, high request volumes and strict latency requirements. Justify the trade-offs and failure-recovery approach.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-016",
+    "prompt": "Return the current value of the variable x after executing x = 4 + 6.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-017",
+    "prompt": "Convert the word HELLO into lowercase letters.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-018",
+    "prompt": "What does HTTP stand for?",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-019",
+    "prompt": "Format the date 2026-11-11 as DD/MM/YYYY.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-020",
+    "prompt": "Extract the email address from this sentence: Please contact support@example.com for assistance.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-021",
+    "prompt": "A small retailer has monthly sales of 1200, 1450, 1100 and 1750 dollars. Calculate total sales, average monthly sales and the percentage increase from the first month to the last. Present the results in a table.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-022",
+    "prompt": "Using the supplied customer feedback, identify the three most frequent complaints, group similar comments together and write a short summary for management.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-023",
+    "prompt": "Prepare a seven-day onboarding checklist for a new junior developer, covering repository access, development environment setup, documentation and an introductory coding task.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-024",
+    "prompt": "Given a small table containing customer IDs, order dates and purchase amounts, write SQL that calculates total spending per customer and sorts the results from highest to lowest.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-025",
+    "prompt": "A customer has written an angry complaint about a delayed delivery. Draft a professional response that acknowledges the concern, requests the order number and explains the next steps without promising an unverified delivery date.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-026",
+    "prompt": "A production recommendation service produces different rankings for identical requests after a deployment. Develop an investigation plan covering model versioning, feature consistency, caching, concurrent updates and rollback criteria.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-027",
+    "prompt": "A company processes confidential medical records across multiple regions. Propose a system that enforces regional data residency, role-based access, encryption, auditability and recovery from regional outages while maintaining acceptable response times.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-028",
+    "prompt": "An event-streaming platform occasionally processes the same payment twice during network failures. Determine the likely failure scenarios and propose an idempotent processing design with durable state, retry handling and verification tests.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-029",
+    "prompt": "A multinational retailer wants to consolidate inventory data from several legacy systems without interrupting operations. Develop a phased migration strategy addressing inconsistent identifiers, data reconciliation, rollback, synchronization and operational risks.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-030",
+    "prompt": "An AI customer-support platform must handle unpredictable demand while meeting strict latency, privacy and cost requirements. Evaluate model-routing approaches, fallback mechanisms, monitoring strategies and quality safeguards, explaining the trade-offs between them.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-031",
+    "prompt": "Reply with only the number of days in a leap year.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-032",
+    "prompt": "A customer asks whether your shop is open on Sunday. Using the supplied opening hours, answer yes or no in a single sentence.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-033",
+    "prompt": "Convert 2500 millilitres into litres and show the result with its unit.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-034",
+    "prompt": "In this JSON object, identify the value associated with the key status: {\"status\": \"active\", \"count\": 12}.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-035",
+    "prompt": "Write a short, polite thank-you message to a customer who has just purchased a product.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-036",
+    "prompt": "A small business recorded monthly expenses of 800, 950, 1100 and 900 dollars. Calculate the total, average and highest expense, then present the results in a Markdown table.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-037",
+    "prompt": "Review a short job description for a junior data engineer and organize the required skills into programming, databases, cloud platforms and communication categories.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-038",
+    "prompt": "A customer reports that an online order arrived damaged. Prepare a professional response acknowledging the issue, requesting a photograph and explaining the standard return process.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-039",
+    "prompt": "Given a small dataset containing employee names, departments and salaries, write SQL to calculate the average salary per department and return the departments in descending order.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-040",
+    "prompt": "Prepare a two-week study schedule for a beginner learning Python, including variables, loops, functions, lists and a small final project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-041",
+    "prompt": "A distributed order-processing platform occasionally loses events when workers restart. Investigate delivery guarantees, checkpointing and message acknowledgements, then propose a recovery strategy that avoids duplicate financial transactions.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-042",
+    "prompt": "A company is migrating a production database containing millions of records while users continue submitting updates. Develop a migration plan covering change-data capture, schema compatibility, consistency checks, rollback and minimal downtime.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-043",
+    "prompt": "An AI assistant retrieves confidential documents from a company knowledge base. Propose safeguards against prompt injection, unauthorized retrieval and sensitive-data leakage, including access enforcement, evaluation tests and incident monitoring.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-044",
+    "prompt": "A streaming analytics service experiences unpredictable latency spikes under high load. Determine how to investigate backpressure, partition imbalance, network bottlenecks and resource saturation, then recommend a resilient architecture.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-045",
+    "prompt": "An organization wants to reduce AI inference expenses without reducing answer quality. Develop a model-routing strategy involving request classification, confidence thresholds, fallback models, asynchronous quality checks and cost monitoring.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-046",
+    "prompt": "What is the capital city of Papua New Guinea?",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-047",
+    "prompt": "Convert the text 'DATA ENGINEERING' to lowercase.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-048",
+    "prompt": "Calculate 125 multiplied by 8 and return only the answer.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-049",
+    "prompt": "Identify whether 17 is an odd or even number.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-050",
+    "prompt": "Extract the domain name from the email address hello@arecatech.example.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-051",
+    "prompt": "Write a single sentence welcoming a new employee to the team.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-052",
+    "prompt": "Given the list [3, 7, 2, 9], return the largest number.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-053",
+    "prompt": "What does CSV stand for in data processing?",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-054",
+    "prompt": "Format the name 'peter nime' using title case.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-055",
+    "prompt": "Return a JSON object with the key success and the Boolean value true.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-056",
+    "prompt": "A shop sold 12 items on Monday, 18 on Tuesday and 15 on Wednesday. Calculate the total and average number of items sold and explain the result briefly.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-057",
+    "prompt": "Compare Python lists and tuples, explaining mutability, syntax and common use cases with examples.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-058",
+    "prompt": "Prepare a checklist for deploying a small Flask application, including environment variables, dependencies, testing and basic logging.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-059",
+    "prompt": "A customer provides three product reviews. Group the comments into positive and negative feedback and summarize the main concerns.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-060",
+    "prompt": "Write a SQL query that joins customers and orders, calculates each customer's total spending and sorts the results by spending.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-061",
+    "prompt": "Create a one-week content calendar for a small technology consultancy, including post topics, platforms and intended audiences.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-062",
+    "prompt": "Given monthly revenue and expense figures for a small business, calculate net profit and profit margin for each month and present the results in a table.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-063",
+    "prompt": "Explain how a REST API request travels from a client to a server and back, using a simple practical example.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-064",
+    "prompt": "Review a short Python function that produces an incorrect total and identify the bug, explain its cause and provide a corrected version.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-065",
+    "prompt": "Draft a professional proposal for automating a company's weekly spreadsheet reporting, including objectives, deliverables and a basic timeline.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-066",
+    "prompt": "A multi-region financial application experiences inconsistent account balances during network partitions. Propose a consistency strategy, identify failure scenarios and explain the trade-offs between availability and correctness.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-067",
+    "prompt": "Develop a secure retrieval-augmented generation architecture for confidential enterprise documents, including authorization, retrieval filtering, evaluation, monitoring and incident response.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-068",
+    "prompt": "A production machine-learning pipeline shows declining prediction quality despite stable infrastructure metrics. Investigate possible data drift, concept drift, feature errors and label delays, then design a recovery plan.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-069",
+    "prompt": "Evaluate strategies for migrating a high-volume transactional database to a new cloud provider while maintaining service availability, auditability and rollback capability.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-070",
+    "prompt": "A real-time fraud detection service must process thousands of events per second with strict latency requirements. Design its processing architecture, fault tolerance, monitoring and model deployment strategy.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-071",
+    "prompt": "Investigate an intermittent distributed-system failure involving duplicate messages, delayed acknowledgements and inconsistent downstream state. Propose diagnostic experiments and corrective controls.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-072",
+    "prompt": "A SaaS company needs to reduce LLM inference costs while maintaining answer quality across diverse customer workloads. Develop a routing, verification and escalation strategy with measurable acceptance criteria.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-073",
+    "prompt": "Design a disaster recovery strategy for a geographically distributed data platform, accounting for recovery objectives, replication lag, security, operational costs and regional outages.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-074",
+    "prompt": "An AI application is vulnerable to malicious instructions embedded in retrieved documents. Develop a threat model, defense-in-depth controls, red-team evaluation plan and monitoring approach.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-075",
+    "prompt": "A large organization must consolidate several incompatible customer data systems. Develop an integration architecture covering identity resolution, schema evolution, governance, reconciliation and phased migration.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-076",
+    "prompt": "Please read this instruction carefully. Do not provide any explanation, introduction, calculation, additional punctuation, or formatting. Your entire response must contain exactly one word, and that word must be READY.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-077",
+    "prompt": "Although this request contains several sentences, there is only one task. Ignore the background information and return the number 42 without any surrounding text.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-078",
+    "prompt": "Return the last character of the string 'automation'.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-079",
+    "prompt": "What color is a standard ripe banana?",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-080",
+    "prompt": "Extract the country from this address: 15 Example Street, Wellington, New Zealand.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-081",
+    "prompt": "The following instructions describe how your answer should look, but they do not change the task itself. Return a JSON object containing only the key result with the string value completed.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-082",
+    "prompt": "Calculate 9 squared.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-083",
+    "prompt": "Remove the extra spaces from the text '  hello   world  ' so that the words are separated by exactly one space and there are no spaces at either end.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-084",
+    "prompt": "Identify the file extension of report.csv.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-085",
+    "prompt": "Respond to the customer with a single polite sentence confirming that their message has been received. Do not promise any resolution time or mention information that has not been verified.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-086",
+    "prompt": "Compare three cloud storage options for a small company using cost, accessibility and backup capabilities as criteria. Present the comparison in a concise table.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-087",
+    "prompt": "A retailer sold 45 products at $12 each and refunded three purchases. Calculate net revenue, explain the calculation and present the final figure.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-088",
+    "prompt": "Given a list of employees and departments, write Python code to count employees per department and sort the results alphabetically.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-089",
+    "prompt": "Prepare a basic incident report from supplied application error logs, including the incident summary, timeline, affected component and recommended next actions.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-090",
+    "prompt": "Turn a collection of unstructured customer requirements into a prioritized feature backlog with descriptions and acceptance criteria.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-091",
+    "prompt": "Explain why a Python dictionary is useful for looking up customer records, and demonstrate the explanation with a small working example.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-092",
+    "prompt": "Create a simple monthly budget for a freelance developer with income, software subscriptions, internet expenses and savings goals.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-093",
+    "prompt": "Using a small table of daily website visits, calculate the weekly total, daily average and busiest day, then summarize the findings.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-094",
+    "prompt": "Write a professional email explaining a minor project delay, including its cause, revised timeline and proposed next steps.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-095",
+    "prompt": "Develop a beginner-friendly testing checklist for a REST API that covers valid requests, invalid inputs, response codes and authentication.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-096",
+    "prompt": "Design a fault-tolerant global payment network.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-097",
+    "prompt": "Resolve a distributed database split-brain failure.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-098",
+    "prompt": "Architect a secure multi-tenant AI platform.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-099",
+    "prompt": "Diagnose intermittent data corruption across distributed services.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-100",
+    "prompt": "Plan a zero-downtime migration of a critical banking system.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-101",
+    "prompt": "A financial institution must deploy machine-learning fraud detection across several countries while meeting regional privacy requirements, handling delayed transactions, preserving audit trails and maintaining low inference latency. Propose an architecture and explain the operational trade-offs.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-102",
+    "prompt": "A production AI agent can access multiple enterprise tools. Develop a security architecture that prevents unauthorized tool execution, limits the impact of prompt injection, supports human approval for sensitive operations and produces verifiable audit logs.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-103",
+    "prompt": "A large streaming system processes millions of events but occasionally loses messages during failover. Investigate possible causes and develop a design that supports replay, idempotency, state recovery and measurable reliability objectives.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-104",
+    "prompt": "An organization operates hundreds of microservices with inconsistent authentication and authorization policies. Develop a phased strategy for centralized identity management, service-to-service trust, policy enforcement and safe migration.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-105",
+    "prompt": "Develop a production LLM routing platform that chooses between inexpensive and capable models, verifies answer quality, escalates uncertain requests and measures cost savings without sacrificing customer privacy or service reliability.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-106",
+    "prompt": "You are reviewing a customer support request. The customer has provided a long explanation about a recent purchase, the weather during delivery, and their previous experiences. Ignore those details. Return only the order number from this text: My order number is 78421.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-107",
+    "prompt": "Please follow these formatting instructions carefully. Do not include a heading, explanation, example, bullet point, or any extra sentence. Your response should consist of the exact text PAYMENT RECEIVED, written entirely in uppercase letters.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-108",
+    "prompt": "A business has supplied several sentences explaining its internal reporting process. You are not being asked to evaluate the process or recommend improvements. Simply identify the department mentioned here: The finance department prepares the monthly report.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-109",
+    "prompt": "Read this message carefully and identify the date. The customer explains that they purchased a product last month, contacted the support team twice, and received a replacement on 14 October 2026. Return only the replacement date.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-110",
+    "prompt": "Please return the word SUCCESS. There is no need to investigate any system, connect to a database, calculate a result, generate a report, or explain why the word was selected. Only the requested word should appear in your answer.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-111",
+    "prompt": "Identify the currency symbol in $250.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-112",
+    "prompt": "Return the first item in [8, 3, 6].",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-113",
+    "prompt": "What is the opposite of empty?",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-114",
+    "prompt": "Convert TRUE to lowercase.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-115",
+    "prompt": "Extract the year from 2026-12-25.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-116",
+    "prompt": "Compare CSV and JSON for exchanging data.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-117",
+    "prompt": "Calculate profit margins for three products.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-118",
+    "prompt": "Summarize the key findings of a sales report.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-119",
+    "prompt": "Write SQL to identify repeat customers.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-120",
+    "prompt": "Create a basic API testing plan.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-121",
+    "prompt": "Given a list of website visitors and conversions for five days, calculate each day's conversion rate, identify the highest-performing day and explain the results.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-122",
+    "prompt": "A small business wants to automate invoice reminders. Outline a practical workflow that checks payment status, identifies overdue invoices and sends appropriate customer notifications.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-123",
+    "prompt": "Review a short Python script that reads a CSV file, identify potential input-validation problems and suggest improvements with examples.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-124",
+    "prompt": "Prepare a comparison of two project management tools using ease of use, pricing, collaboration features and suitability for a five-person team.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-125",
+    "prompt": "A retail manager provides weekly inventory counts. Calculate the changes between weeks, flag products with declining stock and produce a concise summary.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-126",
+    "prompt": "Resolve cross-region transaction consistency failures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-127",
+    "prompt": "Secure a multi-agent enterprise automation platform.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-128",
+    "prompt": "Recover corrupted distributed database replicas.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-129",
+    "prompt": "Optimize a globally distributed fraud detection pipeline.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-130",
+    "prompt": "Investigate cascading failures across interconnected microservices.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-131",
+    "prompt": "A healthcare organization needs to deploy an AI assistant across several hospitals while enforcing patient-specific authorization, regional data residency, audit logging and strict privacy controls. Develop an architecture and evaluation strategy.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-132",
+    "prompt": "A financial trading platform experiences intermittent delays during periods of high volatility. Investigate event ordering, network congestion, processing bottlenecks and recovery mechanisms, then recommend changes that preserve transaction correctness.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-133",
+    "prompt": "A company wants to migrate a large production data warehouse without interrupting analytics services. Develop a phased strategy addressing data synchronization, schema changes, validation, access control, rollback and operational monitoring.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-134",
+    "prompt": "An enterprise AI system uses multiple language models and external tools. Design safeguards for tool permissions, prompt injection, sensitive-data exposure, fallback behavior and quality verification under production traffic.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-135",
+    "prompt": "A distributed event-processing system occasionally produces inconsistent business reports after worker failures. Investigate checkpoint recovery, duplicate processing, late-arriving events and state reconciliation, then propose a reliable processing architecture.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-136",
+    "prompt": "The following customer message contains background details that are not relevant to your answer. The customer ordered a laptop, received several tracking notifications, and contacted the courier. Their reference number is REF-58291. Return only that reference number without additional text.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-137",
+    "prompt": "You are reviewing an internal company memo that discusses employee training, quarterly planning, office equipment and departmental responsibilities. The memo states that the marketing team owns the social media calendar. Identify the department responsible for the social media calendar.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-138",
+    "prompt": "A customer has written a long message about a recent online purchase. They mention delivery delays, product packaging, communication with the support team and their overall shopping experience. Their email address is customer@example.com. Extract only the email address.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-139",
+    "prompt": "Please follow these response instructions carefully. Do not create a summary, provide an explanation, perform calculations or include additional information. Your task is simply to return the exact phrase DATA VALIDATED using uppercase letters and a single space between the words.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-140",
+    "prompt": "An employee submitted a report describing several office activities, including meetings, training sessions and administrative tasks. The report clearly states that the meeting took place on Tuesday. Return only the day of the week mentioned in the report.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-141",
+    "prompt": "A business document describes a new customer registration process. It explains how employees verify submitted information, update records and notify customers. The document identifies the registration status as pending. Extract only the registration status.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-142",
+    "prompt": "Read the following information carefully. A company purchased new office equipment, updated its inventory records and distributed the equipment to several departments. The total number of laptops purchased was 12. Return only the number of laptops.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-143",
+    "prompt": "A support ticket includes several details about a software installation problem, including the operating system, application version and troubleshooting history. The ticket priority is marked HIGH. Identify the priority level without adding any explanation.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-144",
+    "prompt": "An invoice contains information about the supplier, customer, payment method and purchased products. The invoice number is INV-2026-908. Extract the invoice number exactly as written and do not include any other details.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-145",
+    "prompt": "The following text describes a company's employee onboarding process, including identity verification, equipment allocation and introductory training. The new employee's start date is 5 December 2026. Return only the stated start date.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-146",
+    "prompt": "Read this project update and identify the project manager. The team has completed its initial requirements review, scheduled the next meeting and assigned responsibilities. The project manager is Sarah Chen. Return only the person's name.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-147",
+    "prompt": "A retail report contains information about several products, customer preferences and inventory movements. The product category explicitly mentioned is electronics. Identify the category and respond using a single lowercase word.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-148",
+    "prompt": "A company has prepared a long announcement about an upcoming staff event, including information about transport, refreshments, attendance and scheduling. The event location is Auckland. Return only the city where the event will take place.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-149",
+    "prompt": "A customer service record includes the customer's name, preferred contact method, purchase history and delivery instructions. The preferred contact method is email. Extract only that contact method without additional explanation.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-150",
+    "prompt": "An application log includes several entries describing system startup, configuration loading and successful service initialization. The final status field reads OK. Return only the value of the final status field.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-151",
+    "prompt": "Please read the instructions before responding. You do not need to solve a problem, generate code, analyze information or provide recommendations. Return the exact word CONFIRMED, preserving its uppercase spelling and without adding punctuation.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-152",
+    "prompt": "A shipment record describes the dispatch process, warehouse location, carrier information and expected delivery schedule. The tracking code is TRK-771204. Extract only the tracking code exactly as written.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-153",
+    "prompt": "A business registration form contains information about the organization's address, industry, ownership and contact details. The business name is Areca Tech Limited. Identify the business name without adding any other information.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-154",
+    "prompt": "An employee attendance record includes details about working hours, scheduled breaks and leave requests. The employee's department is accounting. Return only the department name in lowercase letters.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-155",
+    "prompt": "A customer submitted a feedback form discussing product quality, delivery experience and communication with staff. The satisfaction rating provided is 4 out of 5. Return only the numeric rating.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-156",
+    "prompt": "An internal IT document explains several steps involved in preparing a workstation for a new employee. The operating system listed is Ubuntu. Identify the operating system and return only its name.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-157",
+    "prompt": "A company announcement describes its annual planning meeting, including the agenda, attendees and venue arrangements. The meeting begins at 9:30 AM. Extract only the stated starting time.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-158",
+    "prompt": "A product record contains information about its manufacturer, warranty, category and stock availability. The product identifier is SKU-4508. Return only the product identifier without explanation.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-159",
+    "prompt": "A payment confirmation message explains that a customer completed checkout, selected a payment method and received an electronic receipt. The payment status is successful. Extract only the payment status.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-160",
+    "prompt": "A technical support report describes an application error, the steps taken by the support team and the final resolution. The assigned technician is Daniel Lee. Return only the technician's name.",
+    "complexity": "simple"
+  },
+  {
+    "id": "V2-161",
+    "prompt": "Compare PostgreSQL and SQLite for a small application.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-162",
+    "prompt": "Calculate customer retention across two months.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-163",
+    "prompt": "Write SQL to find duplicate email addresses.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-164",
+    "prompt": "Explain the differences between Docker images and containers.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-165",
+    "prompt": "Create a three-day employee onboarding schedule.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-166",
+    "prompt": "Identify trends in a monthly expense report.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-167",
+    "prompt": "Compare two API authentication methods.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-168",
+    "prompt": "Summarize customer feedback into actionable recommendations.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-169",
+    "prompt": "Calculate average delivery time by region.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-170",
+    "prompt": "Prepare a basic website accessibility checklist.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-171",
+    "prompt": "A small online retailer wants to understand why repeat purchases have declined. Using supplied order records, calculate repeat-purchase rates by month, identify changes and summarize possible areas for further investigation.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-172",
+    "prompt": "Given a spreadsheet containing employee names, departments and training completion dates, identify employees with overdue training, group them by department and produce a concise management summary.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-173",
+    "prompt": "A customer support team wants to improve its response times. Analyze a small table of ticket creation and resolution timestamps, calculate average resolution time by priority and identify the slowest category.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-174",
+    "prompt": "Prepare a practical deployment checklist for a small Python web application, including dependency installation, environment variables, database migrations, health checks and basic rollback steps.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-175",
+    "prompt": "A business wants to compare the monthly operating costs of two software subscriptions. Calculate annual costs from supplied prices, identify the cheaper option and summarize the trade-offs in a table.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-176",
+    "prompt": "Using a small customer transactions dataset, write SQL that calculates total spending per customer, identifies customers with more than three purchases and sorts the results by revenue.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-177",
+    "prompt": "A marketing team has collected feedback from a recent campaign. Categorize the responses by sentiment, identify recurring themes and produce a short summary with three recommended follow-up actions.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-178",
+    "prompt": "Create a two-week learning plan for a beginner studying SQL. Include filtering, joins, aggregation, common table expressions and a small final practice project.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-179",
+    "prompt": "A company has a list of invoices with due dates, payment dates and amounts. Identify overdue invoices, calculate the total outstanding balance and group unpaid amounts by customer.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-180",
+    "prompt": "Review a short Python data-cleaning script and explain how to handle missing values, inconsistent column names and duplicate rows before exporting the cleaned dataset.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-181",
+    "prompt": "A local business wants to measure website performance. Using supplied traffic and conversion figures, calculate conversion rates, compare weekly performance and explain the most important changes.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-182",
+    "prompt": "Prepare a professional project status update from supplied notes. Include completed work, current tasks, identified blockers, responsible team members and the next reporting milestone.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-183",
+    "prompt": "A small company wants to introduce automated customer email notifications. Outline a workflow covering event triggers, message templates, basic error handling and a testing checklist.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-184",
+    "prompt": "Given a table containing product categories, quantities and unit prices, calculate revenue by category, identify the highest-performing category and present the results in descending order.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-185",
+    "prompt": "A team wants to improve the readability of an existing Python script. Recommend changes to function names, repeated logic, comments and error handling, then demonstrate the improvements using a short example.",
+    "complexity": "medium"
+  },
+  {
+    "id": "V2-186",
+    "prompt": "Design a fault-tolerant payment reconciliation system.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-187",
+    "prompt": "Diagnose intermittent deadlocks across distributed services.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-188",
+    "prompt": "Migrate a production database with zero downtime.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-189",
+    "prompt": "Secure autonomous agents with external tool access.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-190",
+    "prompt": "Investigate inconsistent results in a distributed analytics pipeline.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-191",
+    "prompt": "Design disaster recovery for a multinational banking platform.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-192",
+    "prompt": "Resolve data corruption during concurrent warehouse updates.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-193",
+    "prompt": "Architect privacy-preserving machine learning across hospitals.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-194",
+    "prompt": "Debug nondeterministic failures in asynchronous processing.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-195",
+    "prompt": "Design reliable coordination for competing AI agents.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-196",
+    "prompt": "A financial services company needs an AI-powered fraud detection platform that processes transactions in real time. Design the architecture, explain how to manage false positives, handle delayed events, monitor model drift and recover safely from service failures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-197",
+    "prompt": "An international retailer operates inventory systems across multiple regions. Design a synchronization strategy that prevents overselling, handles network partitions, supports warehouse outages and provides a reliable audit trail for stock adjustments.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-198",
+    "prompt": "A healthcare provider wants to use generative AI to summarize patient records. Develop an implementation strategy covering access permissions, sensitive-data protection, clinical accuracy evaluation, human review, auditability and safe deployment.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-199",
+    "prompt": "A production recommendation engine is producing different results after a deployment despite unchanged input data. Investigate feature pipelines, model versions, preprocessing differences, caching and reproducibility, then design regression tests to prevent recurrence.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-200",
+    "prompt": "A cloud platform experiences cascading outages when a shared authentication service becomes unavailable. Analyze failure propagation, retry storms, circuit breakers, service dependencies and recovery sequencing, then propose a resilient architecture.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-201",
+    "prompt": "An enterprise wants to deploy an AI assistant that can search internal documents and perform authorized actions. Design a secure retrieval and tool-execution architecture addressing document permissions, prompt injection, audit logs, approval workflows and quality verification.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-202",
+    "prompt": "A large data platform must migrate from scheduled batch processing to near-real-time streaming while maintaining historical consistency. Develop a phased migration plan covering event ordering, duplicate detection, schema evolution, backfills and rollback.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-203",
+    "prompt": "A logistics company wants to optimize delivery routes across multiple cities while accounting for vehicle capacity, delivery windows, traffic uncertainty and unexpected cancellations. Propose an optimization strategy, evaluation approach and operational fallback plan.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-204",
+    "prompt": "A company operates several language models with different costs and capabilities. Design a production routing system that classifies requests, selects models, verifies response quality, escalates failures and measures cost savings without sacrificing reliability.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-205",
+    "prompt": "A cybersecurity team discovers suspicious activity involving an AI agent with access to company systems. Develop an investigation and containment plan addressing tool-call records, credential exposure, unauthorized actions, evidence preservation and recovery.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-206",
+    "prompt": "A manufacturing company wants predictive maintenance across factories using sensor data collected under unreliable network conditions. Design data ingestion, anomaly detection, model monitoring and alerting while accounting for equipment differences and operational safety.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-207",
+    "prompt": "A SaaS platform needs to support thousands of organizations while keeping their data isolated. Design a multi-tenant architecture covering authorization, database isolation, encryption, rate limits, tenant-specific configuration and incident recovery.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-208",
+    "prompt": "An online marketplace is experiencing conflicting order statuses between payment, inventory and shipping services. Investigate distributed transaction boundaries, event delivery guarantees, compensation logic and reconciliation, then propose a reliable order-processing design.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-209",
+    "prompt": "A government agency needs to modernize a legacy records platform without losing historical data or interrupting essential services. Develop a migration architecture that addresses inconsistent schemas, access restrictions, validation, rollback and long-term auditability.",
+    "complexity": "complex"
+  },
+  {
+    "id": "V2-210",
+    "prompt": "A global company wants to deploy a multilingual customer support AI across several jurisdictions. Design an approach covering language quality, regional data restrictions, escalation to human agents, evaluation across languages, operational monitoring and controlled model updates.",
+    "complexity": "complex"
+  }
+]
