@@ -1,0 +1,54 @@
+
+# Give our automated testing workflow a name.
+name: Python Tests
+
+# Decide when GitHub should run our tests.
+on:
+
+  # Run whenever code is pushed to the main branch.
+  push:
+    branches: [main]
+
+  # Run when someone opens or updates a pull request to main.
+  pull_request:
+    branches: [main]
+
+  # Allow us to start the workflow manually from GitHub.
+  workflow_dispatch:
+
+# Give the workflow read-only access to repository contents.
+permissions:
+  contents: read
+
+# Define the automated testing job.
+jobs:
+
+  # Name this job "test".
+  test:
+
+    # Use a fresh Linux computer provided by GitHub.
+    runs-on: ubuntu-latest
+
+    # Define the actions performed on that computer.
+    steps:
+
+      # Download our repository into the GitHub runner.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install the Python version used for our project.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # Install the Python packages required by our project.
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      # Execute our automated test suite.
+      - name: Run Python tests
+        run: |
+          python -m pytest tests/ -q

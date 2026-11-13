@@ -10,3 +10,5 @@ pytest-asyncio
 streamlit
 fastapi
 uvicorn
+scikit-learn
+joblib
