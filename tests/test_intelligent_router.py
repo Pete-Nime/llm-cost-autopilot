@@ -5,6 +5,9 @@ import pytest
 # Import the router we just created.
 from src.router.intelligent_router import route_prompt
 
+from unittest.mock import AsyncMock, patch
+from src.router.intelligent_router import route_and_send
+
 
 # Test each difficulty level and its expected model.
 @pytest.mark.parametrize(
@@ -293,3 +296,73 @@ def test_router_v2_rejects_invalid_threshold():
                 use_v2=True,
                 risk_threshold=1.50,
             )
+
+
+
+# Verify that route_and_send passes V2 settings to the router.
+@pytest.mark.asyncio
+async def test_route_and_send_supports_v2():
+
+    # Create a fake routing decision using our existing router.
+    fake_decision = route_prompt("What is Python?")
+
+    # Replace the routing function during this test.
+    with patch(
+        "src.router.intelligent_router.route_prompt",
+        return_value=fake_decision,
+    ) as mock_route:
+
+        # Replace the real provider request with a fake response.
+        with patch(
+            "src.router.intelligent_router.send_request",
+            new_callable=AsyncMock,
+        ) as mock_send:
+
+            # Call the request workflow with V2 enabled.
+            result = await route_and_send(
+                "Explain database indexing.",
+                use_v2=True,
+                risk_threshold=0.40,
+            )
+
+    # Verify that the router received the correct settings.
+    mock_route.assert_called_once_with(
+        "Explain database indexing.",
+        use_v2=True,
+        risk_threshold=0.40,
+    )
+
+    # Verify that the provider was called once.
+    mock_send.assert_awaited_once()
+
+    # Verify that the decision was returned.
+    assert result.decision == fake_decision
+
+# Verify that default requests still use the original mode.
+@pytest.mark.asyncio
+async def test_route_and_send_preserves_default_mode():
+
+    # Create a fake routing decision.
+    fake_decision = route_prompt("What is Python?")
+
+    # Replace the routing function during this test.
+    with patch(
+        "src.router.intelligent_router.route_prompt",
+        return_value=fake_decision,
+    ) as mock_route:
+
+        # Replace the real provider request with a fake response.
+        with patch(
+            "src.router.intelligent_router.send_request",
+            new_callable=AsyncMock,
+        ):
+
+            # Call the workflow without enabling V2.
+            await route_and_send("What is Python?")
+
+    # Verify that the original classifier remains the default.
+    mock_route.assert_called_once_with(
+        "What is Python?",
+        use_v2=False,
+        risk_threshold=0.40,
+    )

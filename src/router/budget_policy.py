@@ -108,11 +108,12 @@ def is_model_within_budget(
     return estimated_cost <= MAX_REQUEST_COST_USD
 
 
-# Estimate the cost of a routed workflow, including fallback.
+# Estimate the cost using an optional preselected routing decision.
 def estimate_routed_workflow_cost(
     prompt: str,
     input_tokens: int | None = None,
     output_tokens: int = MAX_OUTPUT_TOKENS,
+    decision=None,
 ) -> float:
 
     # Import our existing router to choose the first model.
@@ -128,8 +129,11 @@ def estimate_routed_workflow_cost(
     # Validate the output-token count.
     validate_count(output_tokens, "Output tokens")
     
-    # Determine which model handles the prompt.
-    decision = route_prompt(prompt)
+    # Reuse an existing routing decision when one is supplied.
+    if decision is None:
+
+        # Otherwise select the model using the original router.
+        decision = route_prompt(prompt)
 
     # Estimate the first model's cost.
     first_cost = estimate_model_cost(
@@ -154,18 +158,20 @@ def estimate_routed_workflow_cost(
     return first_cost + fallback_cost
 
 
-# Check whether the routed workflow fits our budget.
+# Check the budget using an optional preselected decision.
 def is_routed_workflow_within_budget(
     prompt: str,
     input_tokens: int | None = None,
     output_tokens: int = MAX_OUTPUT_TOKENS,
+    decision=None,
 ) -> bool:
 
-    # Estimate the total possible workflow cost.
+    # Calculate cost for the exact model we plan to execute.
     estimated_cost = estimate_routed_workflow_cost(
         prompt=prompt,
         input_tokens=input_tokens,
         output_tokens=output_tokens,
+        decision=decision,
     )
 
     # Compare with the configured request budget.

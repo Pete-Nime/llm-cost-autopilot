@@ -143,23 +143,33 @@ def route_prompt(
 model_config: ModelConfig
 
 
-# Create an asynchronous function for automatic AI routing.
-async def route_and_send(prompt: str) -> RoutedResponse:
 
-    # Validate the prompt before routing and sending it.
+# Create an asynchronous function for automatic AI routing.
+async def route_and_send(
+    prompt: str,
+    use_v2: bool = False,
+    risk_threshold: float = 0.40,
+) -> RoutedResponse:
+
+    # Validate the user's question before sending it.
     prompt = validate_prompt(prompt)
 
-    # Classify the question and select a registered model.
-    decision = route_prompt(prompt)
+    # Choose the AI model using the requested classifier.
+    decision = route_prompt(
+        prompt,
+        use_v2=use_v2,
+        risk_threshold=risk_threshold,
+    )
 
-    # Send the question using our existing unified client.
+    # Send the question to the selected AI provider.
     response = await send_request(
         prompt=prompt,
         model_config=decision.model_config,
     )
 
-    # Return both the routing decision and the AI answer.
+    # Return the model decision and the AI's response.
     return RoutedResponse(
         decision=decision,
         response=response,
     )
+

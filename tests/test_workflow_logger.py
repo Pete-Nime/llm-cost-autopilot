@@ -18,6 +18,10 @@ from src.verifier.quality_verifier import QualityResult
 # Import the standardized AI response structure.
 from src.providers.response import ModelResponse
 
+import pytest
+from types import SimpleNamespace
+
+
 
 # Create a fake AI response for testing.
 def make_response(model_id: str, cost: float) -> ModelResponse:
@@ -104,3 +108,73 @@ def test_workflow_logs_both_attempts(tmp_path):
 
     # Confirm the total estimated cost includes both attempts.
     assert abs(sum(row[1] for row in rows) - 0.0011) < 1e-10
+
+
+# Verify that the logger uses the supplied V2 routing decision.
+@pytest.mark.asyncio
+async def test_workflow_logs_v2_selected_complexity(
+    monkeypatch,
+    tmp_path,
+):
+
+    # Create a fake routing decision made by V2.
+    fake_decision = SimpleNamespace(
+        complexity="complex",
+        model_name="gpt-4o",
+    )
+
+    # Create a fake response instead of calling a paid AI provider.
+    fake_response = SimpleNamespace(
+        model_id="gpt-4o",
+        provider="openai",
+        input_tokens=20,
+        output_tokens=40,
+        latency_ms=500.0,
+        cost_usd=0.001,
+    )
+
+    # Create a fake completed workflow.
+    fake_result = SimpleNamespace(
+        responses=(fake_response,),
+    )
+
+    # Replace the real escalation workflow with a fake one.
+    fake_escalation = AsyncMock(return_value=fake_result)
+
+    # Patch the function used inside our database logger.
+    monkeypatch.setattr(
+        "src.database.workflow_logger.route_with_escalation",
+        fake_escalation,
+    )
+
+    # Create a fake database logger to capture the saved information.
+    saved_records = []
+
+    # Replace SQLite logging with an in-memory recording function.
+    monkeypatch.setattr(
+        "src.database.workflow_logger.log_request",
+        lambda **kwargs: saved_records.append(kwargs),
+    )
+
+    # Execute our logging workflow using the V2 decision.
+    await run_and_log(
+        "Design a secure distributed authentication system.",
+        db_path=tmp_path / "test_v2.db",
+        decision=fake_decision,
+    )
+
+    # Confirm the selected decision was passed to escalation.
+    fake_escalation.assert_awaited_once_with(
+        "Design a secure distributed authentication system.",
+        decision=fake_decision,
+    )
+
+    # Confirm exactly one provider attempt was recorded.
+    assert len(saved_records) == 1
+
+    # Confirm SQLite would receive the V2-selected complexity.
+    assert saved_records[0]["complexity"] == "complex"
+
+    # Confirm the correct model was recorded.
+    assert saved_records[0]["model_name"] == "gpt-4o"
+

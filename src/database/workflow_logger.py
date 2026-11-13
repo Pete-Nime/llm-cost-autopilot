@@ -18,17 +18,35 @@ from src.verifier.escalation import (
 from src.classifier.complexity_classifier import classify_complexity
 
 
-# Run our AI workflow and save every provider attempt.
+# Run an AI workflow and log its provider attempts.
 async def run_and_log(
     prompt: str,
     db_path: Path = DATABASE_PATH,
+    decision=None,
 ) -> EscalationResult:
+    
+    
+    # Use the original classifier if no decision was supplied.
+    if decision is None:
 
-    # Classify the question for the database record.
-    complexity = classify_complexity(prompt)
+        # Classify the prompt for our existing database records.
+        complexity = classify_complexity(prompt)
 
-    # Run the existing AI routing and escalation workflow.
-    result = await route_with_escalation(prompt)
+        # Run the original workflow to preserve existing behavior.
+        result = await route_with_escalation(prompt)
+
+    # Use the preselected routing decision when available.
+    else:
+
+        # Record the same complexity selected by the router.
+        complexity = decision.complexity
+
+        # Execute the workflow with that exact routing decision.
+        result = await route_with_escalation(
+            prompt,
+            decision=decision,
+        )
+
 
     # Process every response generated during this workflow.
     for attempt_number, response in enumerate(

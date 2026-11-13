@@ -507,3 +507,213 @@ def test_execution_rejects_whitespace(monkeypatch):
 
     # The AI provider must never be contacted.
     fake_workflow.assert_not_awaited()
+
+
+
+# Verify that FastAPI accepts V2 routing settings.
+def test_route_preview_supports_v2(monkeypatch):
+
+    # Import SimpleNamespace to create a fake routing decision.
+    from types import SimpleNamespace
+
+    # Create a fake decision from our V2 classifier.
+    fake_decision = SimpleNamespace(
+        complexity="complex",
+        model_name="gpt-4o",
+        reason="Selected using V2.",
+    )
+
+    # Create a function that checks the supplied settings.
+    def fake_route_prompt(prompt, use_v2=False, risk_threshold=0.40):
+
+        # Confirm the API passes the cleaned prompt.
+        assert prompt == "Design a secure distributed system."
+
+        # Confirm the V2 classifier was requested.
+        assert use_v2 is True
+
+        # Confirm the custom threshold was forwarded.
+        assert risk_threshold == 0.35
+
+        # Return the simulated routing decision.
+        return fake_decision
+
+    # Replace the real classifier to avoid model inference.
+    monkeypatch.setattr(
+        "src.api.main.route_prompt",
+        fake_route_prompt,
+    )
+
+    # Submit a request with V2 enabled.
+    response = client.post(
+        "/route/preview",
+        json={
+            "prompt": "Design a secure distributed system.",
+            "use_v2": True,
+            "risk_threshold": 0.35,
+        },
+    )
+
+    # Confirm the request succeeded.
+    assert response.status_code == 200
+
+    # Confirm the expected model was selected.
+    assert response.json()["selected_model"] == "gpt-4o"
+
+    # Confirm no AI provider request was made.
+    assert response.json()["executed"] is False
+
+
+# Test that V2 execution uses the same decision throughout.
+def test_execution_uses_v2_decision(monkeypatch):
+
+    # Enable execution only during this test.
+    monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
+
+    # Create a simulated V2 routing decision.
+    fake_decision = SimpleNamespace(
+        complexity="complex",
+        model_name="gpt-4o",
+    )
+
+    # Create a fake AI response.
+    fake_response = SimpleNamespace(
+        output_text="A secure system design.",
+        model_id="gpt-4o",
+        cost_usd=0.001,
+    )
+
+    # Create a fake completed workflow.
+    fake_result = SimpleNamespace(
+        response=fake_response,
+        responses=(fake_response,),
+        escalated=False,
+        attempts=1,
+    )
+
+    # Replace the real classifier with our fake decision.
+    def fake_route(prompt, use_v2=False, risk_threshold=0.40):
+
+        # Confirm that V2 was requested.
+        assert use_v2 is True
+
+        # Return the predetermined decision.
+        return fake_decision
+
+    # Install the fake classifier.
+    monkeypatch.setattr(
+        "src.api.main.route_prompt",
+        fake_route,
+    )
+
+    # Create a budget checker that verifies the selected decision.
+    def fake_budget(prompt, decision=None):
+
+        # Confirm budget checking uses the V2 decision.
+        assert decision is fake_decision
+
+        # Simulate an affordable request.
+        return True
+
+    # Install the fake budget checker.
+    monkeypatch.setattr(
+        "src.api.main.is_routed_workflow_within_budget",
+        fake_budget,
+    )
+
+    # Replace real execution with an asynchronous mock.
+    fake_workflow = AsyncMock(return_value=fake_result)
+
+    # Prevent real provider calls and database writes.
+    monkeypatch.setattr(
+        "src.api.main.run_and_log",
+        fake_workflow,
+    )
+
+    # Submit a V2 execution request.
+    response = client.post(
+        "/route/execute",
+        json={
+            "prompt": "Design a secure distributed system.",
+            "use_v2": True,
+            "risk_threshold": 0.40,
+        },
+    )
+
+    # Confirm successful execution.
+    assert response.status_code == 200
+
+    # Confirm the expected model was reported.
+    assert response.json()["model"] == "gpt-4o"
+
+    # Confirm execution received the same decision.
+    fake_workflow.assert_awaited_once_with(
+        "Design a secure distributed system.",
+        decision=fake_decision,
+    )
+
+
+# Verify that an over-budget V2 request never executes.
+def test_v2_budget_rejection_blocks_execution(monkeypatch):
+
+    # Enable execution only during this test.
+    monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
+
+    # Create a simulated V2 decision.
+    fake_decision = SimpleNamespace(
+        complexity="complex",
+        model_name="gpt-4o",
+    )
+
+    # Replace the real classifier.
+    monkeypatch.setattr(
+        "src.api.main.route_prompt",
+        lambda prompt, use_v2, risk_threshold: fake_decision,
+    )
+
+    # Simulate a rejected budget check.
+    monkeypatch.setattr(
+        "src.api.main.is_routed_workflow_within_budget",
+        lambda prompt, decision: False,
+    )
+
+    # Create a fake workflow to detect accidental execution.
+    fake_workflow = AsyncMock()
+
+    # Replace the real execution workflow.
+    monkeypatch.setattr(
+        "src.api.main.run_and_log",
+        fake_workflow,
+    )
+
+    # Submit a V2 execution request.
+    response = client.post(
+        "/route/execute",
+        json={
+            "prompt": "Design a complex AI system.",
+            "use_v2": True,
+        },
+    )
+
+    # Confirm that FastAPI rejected the request.
+    assert response.status_code == 403
+
+    # Confirm no provider workflow was executed.
+    fake_workflow.assert_not_awaited()
+
+
+# Verify that FastAPI rejects invalid V2 risk thresholds.
+def test_v2_rejects_invalid_risk_threshold():
+
+    # Submit a threshold greater than the allowed maximum.
+    response = client.post(
+        "/route/preview",
+        json={
+            "prompt": "Explain distributed systems.",
+            "use_v2": True,
+            "risk_threshold": 1.5,
+        },
+    )
+
+    # Confirm Pydantic rejected the invalid value.
+    assert response.status_code == 422

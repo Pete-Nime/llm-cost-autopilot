@@ -47,6 +47,17 @@ class RoutingRequest(BaseModel):
        max_length=MAX_PROMPT_CHARACTERS,
     )
 
+    # Use the original classifier unless V2 is requested.
+    use_v2: bool = False
+
+    # Set the candidate escalation threshold to 40%.
+    risk_threshold: float = Field(
+        default=0.40,
+        ge=0.0,
+        le=1.0,
+    )
+
+
 # Describe the response returned after AI execution.
 class ExecutionResponse(BaseModel):
 
@@ -105,8 +116,12 @@ def route_preview(request: RoutingRequest):
             detail="Prompt cannot contain only whitespace.",
         )
 
-    # Ask our existing router to choose an AI model.
-    decision = route_prompt(cleaned_prompt)
+    # Select the model using the requested classifier.
+    decision = route_prompt(
+        cleaned_prompt,
+        use_v2=request.use_v2,
+        risk_threshold=request.risk_threshold,
+    )
 
     # Return the decision without calling an AI provider.
     return {
@@ -143,23 +158,69 @@ async def route_execute(request: RoutingRequest):
         )
 
     
-    # Estimate the cost of the selected model and possible fallback.
-    # This check happens before any paid provider request.
-    if not is_routed_workflow_within_budget(
-        prompt=cleaned_prompt,
-    ):
+    
+    # Store a V2 decision only when V2 is requested.
+    decision = None
 
-        # Reject workflows whose planned cost exceeds our budget.
+    # Use the trained classifier when explicitly enabled.
+    if request.use_v2:
+
+        # Choose the model using V2 and our risk-aware policy.
+        try:
+            decision = route_prompt(
+                cleaned_prompt,
+                use_v2=True,
+                risk_threshold=request.risk_threshold,
+            )
+
+        # Handle classifier failures without exposing internal details.
+        except Exception:
+            raise HTTPException(
+                status_code=503,
+                detail="AI routing is temporarily unavailable.",
+            ) from None
+
+        # Check the budget for this exact selected model.
+        within_budget = is_routed_workflow_within_budget(
+            prompt=cleaned_prompt,
+            decision=decision,
+        )
+
+    # Preserve the original budget check for existing requests.
+    else:
+
+        # Keep the original function call unchanged.
+        within_budget = is_routed_workflow_within_budget(
+            prompt=cleaned_prompt,
+        )
+
+    # Block requests whose estimated workflow cost exceeds the limit.
+    if not within_budget:
         raise HTTPException(
             status_code=403,
             detail="Estimated workflow cost exceeds the configured budget.",
         )
 
+
     # Attempt to run our AI workflow safely.
     try:
 
-        # Execute the routing, fallback and database workflow.
-        result = await run_and_log(cleaned_prompt)
+       
+        # Pass the V2 decision through the entire workflow when enabled.
+        if decision is not None:
+
+            # Execute using the same model selected during budget checking.
+            result = await run_and_log(
+                cleaned_prompt,
+                decision=decision,
+            )
+
+        # Preserve the original execution behavior otherwise.
+        else:
+
+            # Run the existing workflow without changing its arguments.
+            result = await run_and_log(cleaned_prompt)
+
 
     # Handle unexpected failures without exposing internal details.
     except Exception:

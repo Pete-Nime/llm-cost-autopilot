@@ -68,17 +68,26 @@ class EscalationResult:
 
 # Send a question and escalate only if the first answer is empty.
 
-# Route a prompt, verify the response, and escalate if empty.
-async def route_with_escalation(prompt: str) -> EscalationResult:
+# Run the AI workflow using an optional preselected routing decision.
+async def route_with_escalation(
+    prompt: str,
+    decision=None,
+) -> EscalationResult:
 
      
     # Validate and clean the customer's question.
     prompt = validate_prompt(prompt)
 
-    # Estimate the maximum planned cost of this routed workflow.
-    # Include the first model and any possible GPT-4o fallback.
+    # Choose a model only if one has not already been selected.
+    if decision is None:
+
+        # Preserve the original classifier as the default.
+        decision = route_prompt(prompt)
+
+    # Estimate the cost of the exact model we plan to execute.
     estimated_workflow_cost = estimate_routed_workflow_cost(
         prompt=prompt,
+        decision=decision,
     )
 
     # Reject the workflow before any paid provider call
@@ -87,11 +96,7 @@ async def route_with_escalation(prompt: str) -> EscalationResult:
         raise ValueError(
             "Estimated workflow cost exceeds the configured budget."
         )
-
-    # Choose the first model only after the budget check passes.
-    decision = route_prompt(prompt)
-
-
+    
     # Send the question to the selected model.
     first_response = await send_request(
         prompt=prompt,
