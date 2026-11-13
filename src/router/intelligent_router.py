@@ -8,6 +8,12 @@ from src.classifier.complexity_classifier import (
     classify_complexity,
 )
 
+# Import our trained V2 complexity classifier.
+from src.classifier.v2_adapter import predict_v2_complexity
+
+# Import our reusable risk-aware routing policy.
+from src.router.risk_policy import apply_policy
+
 # Import the model registry and its configuration type.
 from src.providers.model_registry import (
     ModelConfig,
@@ -63,15 +69,42 @@ class RoutedResponse:
 
 
 # Create a function that chooses a model for a question.
-def route_prompt(prompt: str) -> RoutingDecision:
+# Allow callers to choose the V2 classifier explicitly.
+def route_prompt(
+    prompt: str,
+    use_v2: bool = False,
+    risk_threshold: float = 0.40,
+) -> RoutingDecision:
 
         # Validate and clean the prompt before classifying it.
     prompt = validate_prompt(prompt)
 
-    # Ask our classifier to determine question difficulty.
-    complexity = classify_complexity(prompt)
+    
+    # Use the trained V2 classifier only when requested.
+    if use_v2:
 
-    # Look up the model assigned to this difficulty.
+        # Predict complexity and category probabilities.
+        prediction = predict_v2_complexity(prompt)
+
+        # Prepare the prediction for our routing policy.
+        policy_input = {
+            "predicted": prediction.complexity,
+            "probabilities": prediction.probabilities,
+        }
+
+        # Apply our candidate risk-aware escalation rule.
+        complexity = apply_policy(
+            policy_input,
+            threshold=risk_threshold,
+        )
+
+    # Otherwise preserve our existing classifier.
+    else:
+
+        # Classify the prompt using the original method.
+        complexity = classify_complexity(prompt)
+
+    # Select the model assigned to the final complexity.
     model_name = MODEL_BY_COMPLEXITY[complexity]
 
 
@@ -88,11 +121,13 @@ def route_prompt(prompt: str) -> RoutingDecision:
     model_config = registry[model_name]
 
 
-    # Create an explanation for the routing decision.
+    # Identify which classifier produced the decision.
+    classifier_name = "V2 ML classifier" if use_v2 else "original classifier"
+
+    # Explain the final model selection.
     reason = (
-        f"Question classified as '{complexity}'. "
-        f"Selected model '{model_name}' using the initial "
-        "complexity-based routing policy."
+        f"Question routed as '{complexity}' using {classifier_name}. "
+        f"Selected model '{model_name}'."
     )
 
     # Return the decision to the calling program.

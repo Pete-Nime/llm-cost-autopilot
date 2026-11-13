@@ -176,3 +176,120 @@ def test_route_and_send_rejects_oversized_prompt():
     # The workflow must fail before reaching an AI provider.
     with pytest.raises(ValueError):
         asyncio.run(route_and_send(prompt))
+
+
+
+# Import SimpleNamespace to create fake V2 predictions.
+from types import SimpleNamespace
+
+
+# Verify that enabling V2 uses its predicted complexity.
+def test_router_uses_v2_when_enabled():
+
+    # Create a fake medium prediction with low complex probability.
+    fake_prediction = SimpleNamespace(
+        complexity="medium",
+        probabilities={
+            "simple": 0.10,
+            "medium": 0.80,
+            "complex": 0.10,
+        },
+    )
+
+    # Replace the real V2 classifier temporarily.
+    with patch(
+        "src.router.intelligent_router.predict_v2_complexity",
+        return_value=fake_prediction,
+    ) as mock_predict:
+
+        # Enable V2 explicitly.
+        decision = route_prompt(
+            "Explain database indexes.",
+            use_v2=True,
+        )
+
+    # Confirm the V2 classifier was called once.
+    mock_predict.assert_called_once()
+
+    # Confirm the medium route was selected.
+    assert decision.complexity == "medium"
+
+    # Confirm the registered medium model was selected.
+    assert decision.model_name == "claude-haiku"
+
+
+# Verify that the risk policy escalates uncertain medium tasks.
+def test_router_v2_escalates_medium_to_complex():
+
+    # Create a medium prediction with 45% complex probability.
+    fake_prediction = SimpleNamespace(
+        complexity="medium",
+        probabilities={
+            "simple": 0.05,
+            "medium": 0.50,
+            "complex": 0.45,
+        },
+    )
+
+    # Replace the real V2 classifier temporarily.
+    with patch(
+        "src.router.intelligent_router.predict_v2_complexity",
+        return_value=fake_prediction,
+    ):
+
+        # Enable V2 with a 40% escalation threshold.
+        decision = route_prompt(
+            "Analyze a distributed transaction failure.",
+            use_v2=True,
+            risk_threshold=0.40,
+        )
+
+    # Confirm the safety policy escalated the route.
+    assert decision.complexity == "complex"
+
+    # Confirm the stronger configured model was selected.
+    assert decision.model_name == "gpt-4o"
+
+
+# Verify that the original classifier remains the default.
+def test_router_original_mode_remains_default():
+
+    # Prevent the V2 classifier from being used.
+    with patch(
+        "src.router.intelligent_router.predict_v2_complexity",
+    ) as mock_predict:
+
+        # Call the router without enabling V2.
+        decision = route_prompt("What is Python?")
+
+    # Confirm the original classifier handled the prompt.
+    mock_predict.assert_not_called()
+
+    # Confirm the original model selection is unchanged.
+    assert decision.model_name == "gpt-4o-mini"
+
+
+# Verify that invalid thresholds are rejected in V2 mode.
+def test_router_v2_rejects_invalid_threshold():
+
+    # Create a fake prediction for the routing policy.
+    fake_prediction = SimpleNamespace(
+        complexity="medium",
+        probabilities={"complex": 0.50},
+    )
+
+    # Replace the real classifier during this test.
+    with patch(
+        "src.router.intelligent_router.predict_v2_complexity",
+        return_value=fake_prediction,
+    ):
+
+        # A threshold above 100% must be rejected.
+        with pytest.raises(ValueError):
+
+            # Attempt to route with an invalid threshold.
+            route_prompt(
+                "Explain database replication.",
+                use_v2=True,
+                risk_threshold=1.50,
+            )

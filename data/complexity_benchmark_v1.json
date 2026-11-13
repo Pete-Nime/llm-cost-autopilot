@@ -1,0 +1,462 @@
+
+[
+  {
+    "id": "B001",
+    "prompt": "What is the square root of 144?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B002",
+    "prompt": "Convert the word 'hello' to uppercase.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B003",
+    "prompt": "Extract the postal code from this address: 45 Queen Street, Auckland 1010, New Zealand.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B004",
+    "prompt": "Which planet is closest to the Sun?",
+    "complexity": "simple"
+  },
+  
+{
+  "id": "B005",
+  "prompt": "A warehouse records the following stock counts: blue boxes 18, red boxes 7, and green boxes 12. How many red boxes are recorded?",
+  "complexity": "simple"
+}
+,
+  {
+    "id": "B006",
+    "prompt": "Count how many times the letter 'a' appears in the word 'banana'.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B007",
+    "prompt": "What does CPU stand for?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B008",
+    "prompt": "Translate the Spanish word 'gracias' into English.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B009",
+    "prompt": "Is 42 an even or odd number?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B010",
+    "prompt": "Identify the file extension in the filename quarterly_report.csv.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B011",
+    "prompt": "Compare the advantages and disadvantages of REST APIs and GraphQL for a small mobile application.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B012",
+    "prompt": "Write a Python function that groups a list of transactions by category and calculates the total amount for each category.",
+    "complexity": "medium"
+  },
+ 
+  {
+  "id": "B013",
+  "prompt": "A cafe sells coffee for $5 and tea for $3. Calculate the revenue from 18 coffees and 12 teas, then determine what percentage of total revenue came from coffee.",
+  "complexity": "medium"
+  },
+  {
+    "id": "B014",
+    "prompt": "Create a seven-day beginner study plan for learning Python, including daily exercises.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B015",
+    "prompt": "Review a customer complaint about delayed delivery and draft a professional response offering a practical resolution.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B016",
+    "prompt": "Given monthly revenue figures of 12000, 14500, 13200 and 16800, calculate the month-to-month percentage changes and explain the trend.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B017",
+    "prompt": "Explain how to validate a CSV file before loading its records into a relational database.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B018",
+    "prompt": "Compare two laptop configurations for a university student who needs programming tools and occasional video editing.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B019",
+    "prompt": "Write a SQL query that finds the three highest-spending customers from an orders table and explain how it works.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B020",
+    "prompt": "Organize a list of project tasks into a priority matrix based on urgency and importance.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B021",
+    "prompt": "A recommendation system performs well offline but causes a sharp decline in customer conversions after deployment. Develop a systematic investigation plan covering data drift, experiment design, monitoring and rollback.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B022",
+    "prompt": "Design a secure authentication and authorization system for a multi-tenant SaaS application where customers require separate data access, audit trails and enterprise single sign-on.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B023",
+    "prompt": "A manufacturing company has inconsistent inventory records across warehouses in different countries. Propose a synchronization architecture that addresses network failures, conflicting updates and operational continuity.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B024",
+    "prompt": "Develop a strategy for migrating a legacy banking application to cloud infrastructure without interrupting critical transactions, including security, data consistency, rollback and regulatory requirements.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B025",
+    "prompt": "A machine learning system exhibits different error rates across customer segments. Design a rigorous investigation and mitigation strategy that balances fairness, accuracy, privacy and operational constraints.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B026",
+    "prompt": "Design an LLM routing system that dynamically chooses between multiple providers while balancing response quality, latency, cost, provider outages and data privacy.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B027",
+    "prompt": "A distributed message-processing system occasionally duplicates financial transactions during retries. Propose an end-to-end solution covering idempotency, failure recovery, consistency and observability.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B028",
+    "prompt": "A healthcare analytics platform must combine records from several organizations without exposing sensitive patient information. Develop a privacy-preserving architecture and explain the trade-offs between security, performance and analytical usefulness.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B029",
+    "prompt": "Design a disaster recovery plan for a globally distributed database with strict recovery objectives, including regional failures, replication lag, data integrity and operational testing.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B030",
+    "prompt": "A company wants to replace a rule-based fraud detection system with machine learning. Develop a deployment and governance strategy addressing false positives, concept drift, explainability, adversarial behavior and human review.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B031",
+    "prompt": "What does RAM stand for?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B032",
+    "prompt": "Extract the order ID from this message: Your package has shipped. Order ID: NZ-58291. Estimated delivery: Friday.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B033",
+    "prompt": "Convert 2500 grams into kilograms.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B034",
+    "prompt": "Identify whether the following sentence is a question or a statement: The meeting starts at nine tomorrow morning.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B035",
+    "prompt": "Return the first name from this record: First name: Olivia; Last name: Chen; Department: Finance; Employee ID: E204.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B036",
+    "prompt": "What is the next number in the sequence 2, 4, 6, 8?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B037",
+    "prompt": "Identify the currency code in this invoice: Customer: Northwind Trading; Invoice: INV-1038; Currency: AUD; Amount: 450.00; Payment status: Paid.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B038",
+    "prompt": "Change the sentence 'the report is ready' into title case.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B039",
+    "prompt": "Which HTML tag creates a paragraph?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B040",
+    "prompt": "Read this customer record and return only the country: Customer ID: 1042; Name: Morgan Lee; Company: Pacific Supply; City: Brisbane; Country: Australia; Account status: Active; Subscription: Standard.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B041",
+    "prompt": "Create a Python function that removes duplicate customer IDs while preserving their original order.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B042",
+    "prompt": "Compare fixed-rate and variable-rate business loans, including the main financial risks of each option.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B043",
+    "prompt": "Write a SQL query to calculate monthly sales totals and explain how to handle transactions with missing dates.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B044",
+    "prompt": "Develop a checklist for testing a new customer registration form before releasing it to production.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B045",
+    "prompt": "Explain why a Python function might return None unexpectedly and demonstrate three common debugging approaches.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B046",
+    "prompt": "A small online store has declining repeat purchases. Suggest measurable retention experiments and explain how to compare their results.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B047",
+    "prompt": "Transform a list of product prices into a summary showing the minimum, maximum, average and median values.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B048",
+    "prompt": "Explain the trade-offs between storing application logs in local files and using a centralized logging service.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B049",
+    "prompt": "Create a practical migration checklist for moving a small company website from shared hosting to a managed hosting provider.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B050",
+    "prompt": "Given three candidate marketing campaigns with different costs, conversion rates and average order values, explain how to compare their expected returns.",
+    "complexity": "medium"
+  },
+  
+{
+  "id": "B051",
+  "prompt": "Design an algorithm to schedule thousands of dependent tasks across machines with different capacities while minimizing total completion time, and analyze its computational trade-offs.",
+  "complexity": "complex"
+},
+
+  {
+    "id": "B052",
+    "prompt": "Design a Byzantine fault-tolerant consensus protocol for unreliable network conditions.",
+    "complexity": "complex"
+  },
+  
+{
+  "id": "B053",
+  "prompt": "Analyze a concurrent program with multiple shared resources and propose a strategy to identify, reproduce and prevent deadlocks while preserving throughput.",
+  "complexity": "complex"
+},
+
+  {
+    "id": "B054",
+    "prompt": "Develop a formal verification strategy for a safety-critical autonomous control system.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B055",
+    "prompt": "Derive a secure protocol for privacy-preserving computation across mutually distrustful organizations.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B056",
+    "prompt": "An automated trading platform experiences inconsistent account balances during simultaneous orders. Design a transaction-processing strategy that preserves correctness under concurrency, network partitions and partial failures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B057",
+    "prompt": "Investigate a production machine-learning model whose predictions degrade after deployment despite stable aggregate accuracy, and design a monitoring approach that detects hidden segment-level failures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B058",
+    "prompt": "Design a secure multi-region data platform that supports customer-controlled encryption keys, regulatory data residency, disaster recovery and cross-region analytics without violating isolation requirements.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B059",
+    "prompt": "Develop a strategy for upgrading a distributed event-processing platform without losing messages or processing financial events twice, even when old and new software versions operate simultaneously.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B060",
+    "prompt": "A fleet of autonomous robots shares a changing warehouse environment. Design a coordination system that handles uncertain sensor readings, conflicting movement plans, communication failures and safe recovery.",
+    "complexity": "complex"
+  },
+
+  {
+    "id": "B061",
+    "prompt": "What is 15 multiplied by 4?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B062",
+    "prompt": "Extract the phone number from this text: Customer: Alex; Phone: 021-555-0198; City: Wellington; Status: Active.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B063",
+    "prompt": "Which day comes immediately after Wednesday?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B064",
+    "prompt": "Convert the sentence 'PLEASE SEND THE REPORT' to lowercase.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B065",
+    "prompt": "Identify the payment status in this record: Invoice: INV-778; Customer: Pacific Foods; Amount: 825.00; Currency: NZD; Due date: 2026-12-15; Payment status: Pending; Assigned team: Accounts.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B066",
+    "prompt": "What does JSON stand for?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B067",
+    "prompt": "Return the last word in the sentence 'The server is running normally'.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B068",
+    "prompt": "Is the number 100 greater than 75?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B069",
+    "prompt": "Extract the department from this employee record: Employee: E-902; Name: Priya Kumar; Location: Sydney; Department: Operations; Manager: Jordan; Employment type: Full-time; Start date: 2024-08-12.",
+    "complexity": "simple"
+  },
+  {
+    "id": "B070",
+    "prompt": "What is the file extension of the filename presentation.pptx?",
+    "complexity": "simple"
+  },
+  {
+    "id": "B071",
+    "prompt": "Write a Python function that validates whether a password meets minimum length, uppercase and numeric character requirements.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B072",
+    "prompt": "Compare using a relational database and a document database for a small online product catalog.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B073",
+    "prompt": "Explain how to calculate a seven-day moving average of daily website visits using SQL window functions.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B074",
+    "prompt": "Create a troubleshooting checklist for a website that loads correctly on desktop but displays incorrectly on mobile devices.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B075",
+    "prompt": "Given a marketing budget of 5000 dollars, allocate spending across three channels and explain the reasoning behind the allocation.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B076",
+    "prompt": "Explain how to identify and remove duplicate rows from a customer dataset while retaining the most recently updated record.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B077",
+    "prompt": "Design a basic API error-handling strategy covering invalid requests, authentication failures and temporary service outages.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B078",
+    "prompt": "Compare two job offers using salary, commute time, professional development opportunities and work-life balance.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B079",
+    "prompt": "Write a SQL query that calculates the percentage contribution of each product category to overall sales.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B080",
+    "prompt": "Explain how to investigate a sudden increase in API response time using request logs, database metrics and application monitoring.",
+    "complexity": "medium"
+  },
+  {
+    "id": "B081",
+    "prompt": "Design a resilient payment processing workflow that prevents duplicate charges when clients retry requests during intermittent network failures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B082",
+    "prompt": "Develop a comprehensive migration strategy for consolidating customer records from several incompatible legacy systems while preserving auditability and resolving conflicting identities.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B083",
+    "prompt": "A global recommendation service must meet strict latency requirements while serving personalized results from frequently changing data. Design an architecture that balances freshness, consistency, availability and operating cost.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B084",
+    "prompt": "Develop a threat model and defense strategy for an enterprise LLM assistant that retrieves confidential documents and can invoke external tools.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B085",
+    "prompt": "Design an experimental framework for evaluating whether an AI customer support agent improves resolution quality without increasing harmful errors, operational cost or customer dissatisfaction.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B086",
+    "prompt": "A distributed database experiences inconsistent reads during regional failovers. Investigate the possible causes and propose a consistency strategy with explicit recovery and availability trade-offs.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B087",
+    "prompt": "Develop a governance and monitoring architecture for an automated credit decision system that must remain explainable, fair, secure and auditable as its input data changes.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B088",
+    "prompt": "Design a multi-agent workflow that delegates business research, data analysis and report generation while preventing unauthorized actions, propagating uncertainty and recovering from partial failures.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B089",
+    "prompt": "An IoT platform receives millions of sensor events with missing timestamps, duplicated messages and intermittent connectivity. Design an end-to-end processing and reconciliation strategy.",
+    "complexity": "complex"
+  },
+  {
+    "id": "B090",
+    "prompt": "Develop a cost-aware LLM orchestration strategy that combines task classification, provider routing, answer verification and escalation while meeting quality and latency objectives.",
+    "complexity": "complex"
+  }
+
+]
