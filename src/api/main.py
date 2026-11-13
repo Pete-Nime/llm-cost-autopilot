@@ -159,49 +159,55 @@ async def route_execute(request: RoutingRequest):
 
     
     
+    
     # Store a V2 decision only when V2 is requested.
     decision = None
 
-    # Use the trained classifier when explicitly enabled.
-    if request.use_v2:
+    # Safely calculate the routing decision and estimated cost.
+    try:
 
-        # Choose the model using V2 and our risk-aware policy.
-        try:
+        # Check whether the client requested our V2 classifier.
+        if request.use_v2:
+
+            # Use V2 to select a model for the prompt.
             decision = route_prompt(
                 cleaned_prompt,
                 use_v2=True,
                 risk_threshold=request.risk_threshold,
             )
 
-        # Handle classifier failures without exposing internal details.
-        except Exception:
-            raise HTTPException(
-                status_code=503,
-                detail="AI routing is temporarily unavailable.",
-            ) from None
+            # Check the budget using that exact routing decision.
+            within_budget = is_routed_workflow_within_budget(
+                prompt=cleaned_prompt,
+                decision=decision,
+            )
 
-        # Check the budget for this exact selected model.
-        within_budget = is_routed_workflow_within_budget(
-            prompt=cleaned_prompt,
-            decision=decision,
-        )
+        # Otherwise preserve our original routing behavior.
+        else:
 
-    # Preserve the original budget check for existing requests.
-    else:
+            # Check the budget using the original classifier.
+            within_budget = is_routed_workflow_within_budget(
+                prompt=cleaned_prompt,
+            )
 
-        # Keep the original function call unchanged.
-        within_budget = is_routed_workflow_within_budget(
-            prompt=cleaned_prompt,
-        )
+    # Catch unexpected routing or budget-estimation failures.
+    except Exception:
 
-    # Block requests whose estimated workflow cost exceeds the limit.
+        # Return a controlled response without exposing internals.
+        raise HTTPException(
+            status_code=503,
+            detail="AI routing or budget estimation is temporarily unavailable.",
+        ) from None
+
+    # Reject requests that exceed the configured budget.
     if not within_budget:
+
+        # Stop before any paid AI provider request.
         raise HTTPException(
             status_code=403,
             detail="Estimated workflow cost exceeds the configured budget.",
         )
-
-
+    
     # Attempt to run our AI workflow safely.
     try:
 

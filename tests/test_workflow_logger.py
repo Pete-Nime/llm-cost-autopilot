@@ -178,3 +178,112 @@ async def test_workflow_logs_v2_selected_complexity(
     # Confirm the correct model was recorded.
     assert saved_records[0]["model_name"] == "gpt-4o"
 
+
+# Verify V2 routing, provider selection, and real SQLite logging.
+@pytest.mark.asyncio
+async def test_v2_decision_reaches_provider_and_sqlite(
+    monkeypatch,
+    tmp_path,
+):
+
+    # Import our model registry to obtain a real model configuration.
+    from src.providers.model_registry import load_model_registry
+
+    # Import the real routing decision structure.
+    from src.router.intelligent_router import RoutingDecision
+
+    # Create a temporary database that will not affect production data.
+    test_db = tmp_path / "v2_integration.db"
+
+    # Load the actual model configurations.
+    registry = load_model_registry()
+
+    # Create a V2-style decision selecting GPT-4o.
+    decision = RoutingDecision(
+        complexity="complex",
+        model_name="gpt-4o",
+        model_config=registry["gpt-4o"],
+        reason="Selected by V2 risk-aware routing.",
+    )
+
+    # Store every provider request so we can inspect it.
+    provider_calls = []
+
+    # Replace the paid provider with a fake asynchronous provider.
+    async def fake_send_request(prompt, model_config):
+
+        # Record the exact configuration passed to the provider.
+        provider_calls.append(model_config)
+
+        # Return a simulated successful AI response.
+        return ModelResponse(
+            output_text="A secure system architecture.",
+            input_tokens=20,
+            output_tokens=40,
+            latency_ms=250.0,
+            cost_usd=0.001,
+            model_id="gpt-4o",
+            provider="openai",
+        )
+
+    # Patch the provider at the point where escalation calls it.
+    monkeypatch.setattr(
+        "src.verifier.escalation.send_request",
+        fake_send_request,
+    )
+
+    # Replace quality verification to keep the test deterministic.
+    async def fake_verify_quality(answer):
+
+        # Return a simulated successful verification result.
+        return QualityResult(
+            passed=True,
+            reason="Test response.",
+            score=0.9,
+        )
+
+    # Patch the asynchronous quality verifier.
+    monkeypatch.setattr(
+        "src.verifier.escalation.verify_quality_async",
+        fake_verify_quality,
+    )
+
+    # Execute the real escalation and SQLite logging workflow.
+    result = await run_and_log(
+        "Design a secure distributed authentication system.",
+        db_path=test_db,
+        decision=decision,
+    )
+
+    # Confirm exactly one provider request was attempted.
+    assert len(provider_calls) == 1
+
+    # Confirm the provider received the selected model configuration.
+    assert provider_calls[0] == decision.model_config
+
+    # Confirm no fallback was necessary.
+    assert result.escalated is False
+
+    # Open the temporary SQLite database.
+    with sqlite3.connect(test_db) as connection:
+
+        # Retrieve the model, complexity, and cost recorded by SQLite.
+        rows = connection.execute(
+            """
+            SELECT model_name, complexity, estimated_cost_usd
+            FROM request_logs
+            ORDER BY id
+            """
+        ).fetchall()
+
+    # Confirm one provider attempt was saved.
+    assert len(rows) == 1
+
+    # Confirm SQLite recorded the selected model.
+    assert rows[0][0] == "gpt-4o"
+
+    # Confirm SQLite recorded the V2-selected complexity.
+    assert rows[0][1] == "complex"
+
+    # Confirm SQLite recorded the simulated request cost.
+    assert abs(rows[0][2] - 0.001) < 1e-10

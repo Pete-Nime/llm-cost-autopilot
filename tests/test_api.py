@@ -717,3 +717,67 @@ def test_v2_rejects_invalid_risk_threshold():
 
     # Confirm Pydantic rejected the invalid value.
     assert response.status_code == 422
+
+
+# Verify that budget-estimation errors are handled safely.
+def test_v2_budget_estimation_failure_returns_503(monkeypatch):
+
+    # Enable AI execution for this isolated test.
+    monkeypatch.setenv("ENABLE_AI_EXECUTION", "true")
+
+    # Import a helper for creating a fake routing decision.
+    from types import SimpleNamespace
+
+    # Import a mock for our asynchronous execution workflow.
+    from unittest.mock import AsyncMock
+
+    # Create a fake V2 routing decision.
+    fake_decision = SimpleNamespace(
+        complexity="complex",
+        model_name="gpt-4o",
+    )
+
+    # Replace the real V2 classifier with our fake decision.
+    monkeypatch.setattr(
+        "src.api.main.route_prompt",
+        lambda prompt, use_v2, risk_threshold: fake_decision,
+    )
+
+    # Create a function that simulates a budget calculation failure.
+    def failing_budget_check(prompt, decision=None):
+
+        # Simulate an unexpected internal error.
+        raise RuntimeError("Budget calculation failed")
+
+    # Replace the real budget checker with the failing function.
+    monkeypatch.setattr(
+        "src.api.main.is_routed_workflow_within_budget",
+        failing_budget_check,
+    )
+
+    # Create a fake workflow to detect accidental execution.
+    fake_workflow = AsyncMock()
+
+    # Prevent real AI provider requests.
+    monkeypatch.setattr(
+        "src.api.main.run_and_log",
+        fake_workflow,
+    )
+
+    # Send a V2 execution request.
+    response = client.post(
+        "/route/execute",
+        json={
+            "prompt": "Design a secure AI system.",
+            "use_v2": True,
+        },
+    )
+
+    # Confirm FastAPI returns a controlled service error.
+    assert response.status_code == 503
+
+    # Confirm the internal exception message is not exposed.
+    assert "Budget calculation failed" not in response.text
+
+    # Confirm no AI execution took place.
+    fake_workflow.assert_not_awaited()
