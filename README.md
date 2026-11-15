@@ -111,6 +111,24 @@ Install dependencies:
 python -m pip install -r requirements.txt
 ```
 
+
+## Running the API
+
+Start the FastAPI development server from the project root:
+
+```bash
+python -m uvicorn src.api.main:app --reload
+```
+
+Open the interactive API documentation:
+
+http://127.0.0.1:8000/docs
+
+The API provides endpoints for health checks, routing previews, request execution, and usage analytics.
+
+AI execution is disabled by default. Configure provider credentials, budget limits, and the execution environment variable before enabling paid requests.
+
+
 ## Configuration
 
 Provider API credentials should be stored in a local `.env` file.
@@ -180,12 +198,51 @@ Tests cover:
 
 Provider calls are mocked in automated integration tests to avoid API charges.
 
+
+## Classifier Evaluation Results
+
+The V2 classifier uses TF-IDF text features and seven numerical prompt features to predict three complexity categories: simple, medium, and complex.
+
+### Benchmark Evaluation
+
+Evaluated on 90 labeled benchmark prompts:
+
+| Metric | Result |
+|---|---|
+| Classifier accuracy | 81.11% |
+| Routing accuracy at 40% risk threshold | 85.56% |
+| Complex tasks routed below complex | 3 of 30 |
+| Non-complex tasks routed as complex | 3 |
+| Benchmark prompts flagged for training similarity | 0 at threshold 0.65 |
+
+The 40% threshold achieved the highest routing accuracy among the six thresholds tested on this benchmark.
+
+### Challenge Evaluation
+
+Evaluated on 15 challenge prompts:
+
+| Metric | Result |
+|---|---|
+| Classifier accuracy | 73.33% |
+| Incorrect predictions | 4 |
+| Complex prompts classified as simple | 2 |
+
+These challenge results expose an important limitation: the current risk policy only escalates medium predictions to complex.
+
+The benchmark and challenge datasets have already been reviewed during development, so these results should not be treated as independent, untouched test-set performance.
+
+
 ## Current Limitations
 
-- The V2 classifier requires independent evaluation on unseen prompts.
-- Routing quality depends on the classifier and configured model policies.
+
+- The V2 classifier needs evaluation on a fresh, untouched test dataset before making generalization claims.
+- The current risk policy escalates medium predictions when the complex-class probability exceeds the configured threshold. Simple predictions are not escalated.
+- The response verifier uses a basic word-count score. It does not measure factual correctness, reasoning quality, or semantic completeness.
+- The GPT-4o fallback is triggered by an empty initial response, not by a low word-count score or an incorrect answer.
+- Model routing depends on classifier accuracy and manually configured model-selection policies.
 - Cost estimates may differ from actual provider billing.
-- The project is a portfolio implementation, not a production-hardened service.
+- The project is a portfolio prototype, not a production-hardened service.
+
 
 ## Author
 
